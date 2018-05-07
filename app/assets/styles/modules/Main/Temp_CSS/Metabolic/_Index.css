@@ -1,0 +1,28 @@
+.postcard--metabolic__01 {
+	grid-area: postcard_01;	
+	max-height: 100%
+}
+
+.postcard--metabolic__02 {
+	grid-area: postcard_02;	
+}
+
+.postcard--metabolic__03 {
+	grid-area: postcard_03;	
+}
+
+.postcard--metabolic__04 {
+	grid-area: postcard_04;	
+}
+
+.postcard--metabolic__05 {
+	grid-area: postcard_05;	
+}
+
+.postcard--metabolic__06 {
+	grid-area: postcard_06;	
+}
+
+header.header--metabolic {
+	grid-area: header;
+}

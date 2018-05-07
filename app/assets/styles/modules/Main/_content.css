@@ -1,0 +1,57 @@
+.content {	
+	width: 1400px;
+	margin: auto;
+ 	display: grid;
+
+
+	&--diet, &--metabolic {	
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-rows: 70px 250px 250px;
+		grid-template-areas: 
+		"header header header"
+		"postcard_01 postcard_02 postcard_03"
+		"postcard_04 postcard_05 postcard_06";
+		
+		
+		grid-column-gap: 20px;
+		grid-row-gap: 70px;
+
+		padding: 20px;
+		padding-bottom: 70px;
+		
+	}
+
+	
+	&--index
+	{
+		grid-template-columns: 1fr 1fr 270px 270px; 
+		grid-template-rows: 180px 180px 330px 300px;
+		grid-template-areas: 
+		"workout workout metabolic strength"
+		"workout workout mobility diet"
+		"workout workout movie movie"
+		"art1 art2 offering offering";
+
+		grid-column-gap: 20px;
+		grid-row-gap: 20px;
+
+		padding: 10px;
+	}
+
+	&--login
+	{
+		text-align: center;
+		padding: 20px;
+	}
+
+		&--registration
+	{
+		text-align: center;
+		padding: 20px;
+		margin-left: auto;
+	    margin-right: auto;
+	    width: 300px;
+
+		
+	}
+}

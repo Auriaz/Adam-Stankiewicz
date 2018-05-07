@@ -1,0 +1,115 @@
+ /* ######## NAWIGACJA ######## */
+#navigation {	  
+  z-index: 100;
+  background-color: #303030;
+}
+.nav {
+      
+ text-align: center;
+ padding: 0.8vw 0;
+ width: 100vw;
+ border-top: 0.15vw solid #0059b3;
+ border-bottom: 0.15vw solid #0059b3;
+	
+}
+   
+.sticky {
+   position: fixed;
+   top: 0;
+   left: 0;
+
+}
+
+.panel {
+	
+}
+ol.navi {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	font-size: 1em;
+	height: 34px;
+	line-height: 200%;
+	display: inline-block;
+    z-index: 100;
+   letter-spacing: 0.1vw;
+}
+ol.navi  a {
+	color: $mainLithBlue;
+	text-decoration: none;
+	display: block;
+	
+}
+ol.navi > li {
+	float: left;
+	width: 11vw;
+	height: 2.5vw;
+	border-right: 0.1vw dotted #0059b3;
+	z-index: 5;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0.2vw;
+	font-weight: 700;
+	letter-spacing: 2px;
+}
+
+ol.navi > li:first-child {
+		border-right:  none;
+		left: 0;
+		top:10px;
+		position: fixed;
+		font-size: 24px;
+}
+
+ol.navi > li:nth-child(2) {
+		border-left: 0.1vw dotted #0059b3;
+}
+
+ol.navi > li:last-child {
+		border-right:  none;
+		right: 0;
+		top: 0;
+		position: fixed;
+
+}
+ol.navi > li:hover {
+	border-left: 0.1vw solid #0059b3;	
+	background-color: #222;
+	
+}
+ol.navi > li:hover > a {
+	color: #E08000;
+}
+ol.navi > li > ul {
+	font-weight: 400;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	height: 4vw;
+	display: none;
+   
+}
+ol.navi > li:hover > ul {
+	display: block;
+
+}
+
+ol.navi > li  > ul > li {
+	
+	background-color: #222;
+	 position: relative;
+	 z-index: 100;
+	 border-top: 0.15vw dotted #303030;
+	 opacity: 0.9;
+	 letter-spacing: 2px;
+
+}
+ol.navi > li  > ul > li:hover {
+	background-color: #333;
+
+
+}
+ol.navi > li  > ul > li:hover > a {
+ color: #E08000;
+
+}

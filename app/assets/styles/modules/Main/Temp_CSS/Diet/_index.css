@@ -1,0 +1,28 @@
+.postcard--diet__01 {
+	grid-area: postcard_01;	
+	max-height: 100%
+}
+
+.postcard--diet__02 {
+	grid-area: postcard_02;	
+}
+
+.postcard--diet__03 {
+	grid-area: postcard_03;	
+}
+
+.postcard--diet__04 {
+	grid-area: postcard_04;	
+}
+
+.postcard--diet__05 {
+	grid-area: postcard_05;	
+}
+
+.postcard--diet__06 {
+	grid-area: postcard_06;	
+}
+
+header.header--diet {
+	grid-area: header;
+}

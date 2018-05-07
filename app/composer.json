@@ -1,0 +1,18 @@
+{
+	"autoload" : {
+		"classmap": [
+			"assets/srcPHP/Controller",
+			"assets/srcPHP/Controller/Router",
+			"assets/srcPHP/Controller/Engine",
+			"assets/srcPHP/Model",
+			"assets/srcPHP/Model/Connect",
+			"assets/srcPHP/Model/Library",
+			"assets/srcPHP/View",
+			"assets/srcPHP/View/Templates"
+
+
+		]
+		    	    
+		
+	}
+}
