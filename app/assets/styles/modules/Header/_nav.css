@@ -28,7 +28,7 @@ ol.navi {
 	margin: 0;
 	list-style-type: none;
 	font-size: 18px;
-	height: 34px;
+	height: 38px;
 	line-height: 200%;
 	display: inline-block;
     z-index: 100;
@@ -43,12 +43,12 @@ ol.navi  a {
 ol.navi > li {
 	float: left;
 	width: 150px;
-	height: 35px;
+	height: 36px;
 	border-right: 2px dotted #0059b3;
 	z-index: 5;
 	margin-left: auto;
 	margin-right: auto;
-	padding: 2px;
+	padding: 1px;
 	font-weight: 700;
 	letter-spacing: 2px;
 }
@@ -56,13 +56,14 @@ ol.navi > li {
 ol.navi > li:first-child {
 		border-right:  none;
 		left: 0;
-		top:10px;
+		top: 10px;
 		position: fixed;
 		font-size: 24px;
 }
 
 ol.navi > li:nth-child(2) {
-		border-left: 0.1vw dotted #0059b3;
+		border-left: 2px dotted #0059b3;
+
 }
 
 ol.navi > li:last-child {
@@ -70,7 +71,8 @@ ol.navi > li:last-child {
 		right: 0;
 		top: 0;
 		position: fixed;
-
+		font-size: 15px;
+		
 }
 ol.navi > li:hover {
 	border-left: 2px solid #0059b3;	
