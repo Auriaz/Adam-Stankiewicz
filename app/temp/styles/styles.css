@@ -143,10 +143,10 @@ header {
 .nav {
       
  text-align: center;
- padding: 0.8vw 0;
- width: 100vw;
- border-top: 0.15vw solid #0059b3;
- border-bottom: 0.15vw solid #0059b3;
+ padding: 10px 0;
+ width: 100%;
+ border-top: 2px solid #0059b3;
+ border-bottom: 2px solid #0059b3;
 	
 }
 .sticky {
@@ -162,12 +162,12 @@ ol.navi {
 	padding: 0;
 	margin: 0;
 	list-style-type: none;
-	font-size: 1em;
+	font-size: 18px;
 	height: 34px;
 	line-height: 200%;
 	display: inline-block;
     z-index: 100;
-   letter-spacing: 0.1vw;
+   letter-spacing: 2px;
 }
 ol.navi  a {
 	color: #39a5f1;
@@ -177,13 +177,13 @@ ol.navi  a {
 }
 ol.navi > li {
 	float: left;
-	width: 11vw;
-	height: 2.5vw;
-	border-right: 0.1vw dotted #0059b3;
+	width: 150px;
+	height: 35px;
+	border-right: 2px dotted #0059b3;
 	z-index: 5;
 	margin-left: auto;
 	margin-right: auto;
-	padding: 0.2vw;
+	padding: 2px;
 	font-weight: 700;
 	letter-spacing: 2px;
 }
@@ -205,7 +205,7 @@ ol.navi > li:last-child {
 
 }
 ol.navi > li:hover {
-	border-left: 0.1vw solid #0059b3;	
+	border-left: 2px solid #0059b3;	
 	background-color: #222;
 	
 }
@@ -217,7 +217,7 @@ ol.navi > li > ul {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
-	height: 4vw;
+	height: 40px;
 	display: none;
    
 }
@@ -230,7 +230,7 @@ ol.navi > li  > ul > li {
 	background-color: #222;
 	 position: relative;
 	 z-index: 100;
-	 border-top: 0.15vw dotted #303030;
+	 border-top: 2px dotted #303030;
 	 opacity: 0.9;
 	 letter-spacing: 2px;
 
@@ -350,7 +350,7 @@ height: 100%;
 
 }
 .postcard:hover {
-	box-shadow: 0px 0px 10px #0059b3;
+	box-shadow: 0 0 10px #0059b3;
 }
 .postcard__photo {
   position: relative;
