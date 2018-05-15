@@ -1,7 +1,7 @@
 <article>
  	<div class="content content--metabolic">
 
-		<header class="header--metabolic">
+		<header class="content--metabolic__title">
 			<h1 style="text-align: center;">Metabolic</h1>
 		</header>
 

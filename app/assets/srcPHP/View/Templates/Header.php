@@ -126,37 +126,7 @@
 
 				<li>
 
-					<!--   ####  SOCIALMEDIA   ####   -->
-					<div class="socials socials--nav">
 
-				        <div class="sociallink sociallink--nav sociallink__yt">
-				            <a href="https://youtube.com" target="_blank">
-				           	  	<i class="icon-youtube" ></i>
-				           	</a>
-				        </div>
-
-				        <div class="sociallink sociallink--nav sociallink__fb">
-				            <a href="https://pl-pl.facebook.com/" target="_blank">
-				            	<i class="icon-facebook-squared" ></i>
-				            </a>
-				        </div>
-
-				        <div class="sociallink sociallink--nav sociallink__gplus">
-				          	<a href="https://plus.google.com" target="_blank">
-				           	   	<i class="icon-gplus" ></i>
-				           	</a>
-				        </div>
-
-				        <div class="sociallink sociallink--nav sociallink__tw">
-				           <a href="https://twitter.com" target="_blank">
-				           		<i class="icon-twitter"></i>
-				           	</a>
-				        </div>
-
-					    
-
-				   	</div>
-				   		<!--   ####  KONIEC SOCIALMEDIA   ####   -->
 				
 
 				   <?php if(Session::get('loggedIn') == true):?>
@@ -165,6 +135,10 @@
 				   <ul>
 				   	 	<li>
 				      		<a href="<?php echo URL;?>Dashboard/Logout"> Logout</a>
+				    	</li>
+
+				  		<li>
+				      		<a href="<?php echo URL;?>AddWork"> Add a Workout</a>
 				    	</li>
 
 				     	<?php if(Session::get('$role') == 'admin'):?>

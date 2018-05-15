@@ -1,8 +1,8 @@
 <article>
 	<div class="content content--diet">
 
-		<header class="header--diet">
-			<h1 style="text-align: center;">Dieta</h1>
+		<header class="content--diet__title">
+			<h1>Dieta</h1>
 		</header>
 
 		<div class="postcard postcard--diet__01">

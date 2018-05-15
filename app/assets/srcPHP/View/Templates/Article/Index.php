@@ -1,4 +1,4 @@
-<div id="data-container">
+<div id="content">
   
   <h1>Dodaj artykuł</h1>
 

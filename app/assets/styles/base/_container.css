@@ -1,5 +1,5 @@
-.container{
-//display: grid;
+.container {
+display: grid;
 grid-template-columns: 1fr; 
 grid-template-areas: 
 "header"
@@ -8,3 +8,4 @@ grid-template-areas:
 
 grid-row-gap: 20px;
 }
+

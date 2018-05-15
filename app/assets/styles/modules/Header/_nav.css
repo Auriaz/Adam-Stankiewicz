@@ -1,15 +1,15 @@
  /* ######## NAWIGACJA ######## */
 #navigation {	  
   z-index: 100;
-  background-color: #303030;
+  background-color: $mainDark;
 }
 .nav {
       
  text-align: center;
  padding: 10px 0;
  width: 100%;
- border-top: 2px solid #0059b3;
- border-bottom: 2px solid #0059b3;
+ border-top: 2px solid $mainDarkBlue;
+ border-bottom: 2px solid $mainDarkBlue;
 	
 }
    
@@ -34,17 +34,19 @@ ol.navi {
     z-index: 100;
    letter-spacing: 2px;
 }
+
 ol.navi  a {
 	color: $mainLithBlue;
 	text-decoration: none;
 	display: block;
 	
 }
+
 ol.navi > li {
 	float: left;
 	width: 150px;
 	height: 36px;
-	border-right: 2px dotted #0059b3;
+	border-right: 2px dotted $mainDarkBlue;
 	z-index: 5;
 	margin-left: auto;
 	margin-right: auto;
@@ -62,7 +64,7 @@ ol.navi > li:first-child {
 }
 
 ol.navi > li:nth-child(2) {
-		border-left: 2px dotted #0059b3;
+		border-left: 2px dotted $mainDarkBlue;
 
 }
 
@@ -75,12 +77,12 @@ ol.navi > li:last-child {
 		
 }
 ol.navi > li:hover {
-	border-left: 2px solid #0059b3;	
+	border-left: 2px solid $mainDarkBlue;	
 	background-color: #222;
 	
 }
 ol.navi > li:hover > a {
-	color: #E08000;
+	color: $mainOrange;
 }
 ol.navi > li > ul {
 	font-weight: 400;
@@ -101,7 +103,7 @@ ol.navi > li  > ul > li {
 	background-color: #222;
 	 position: relative;
 	 z-index: 100;
-	 border-top: 2px dotted #303030;
+	 border-top: 2px dotted $mainDark;
 	 opacity: 0.9;
 	 letter-spacing: 2px;
 
@@ -112,6 +114,6 @@ ol.navi > li  > ul > li:hover {
 
 }
 ol.navi > li  > ul > li:hover > a {
- color: #E08000;
+ color: $mainOrange;
 
 }

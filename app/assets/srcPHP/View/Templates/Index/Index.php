@@ -1,14 +1,29 @@
 <article>
   <div class="content content--index">
 
-  	<div class="box box__workout">
+  	<div class="box-index box-index-workout">
   		<a href="<?php echo URL;?>Workout">	
-  			<div class="postcard">
-  				<p class="index">Workout of Day<br/><br/>Overhead squat 3-3-3-3-3 reps<br/><br/>
+  			<div class="postcard ">
+  				<div class="box-index-workout__text-content">
+	  				<span class="box-index-workout__title">		
+				  		<?php
 
-			Scroll for scaling options.<br/>
-			Post loads to comments.<br/>
-			Compare to 170302.</p>
+							if(isset($_SESSION['$date'])) {
+								echo Session::get('$date')."<br/><br/>";
+							}
+							?>
+					</span>
+					<span class="box-index-workout__subtitle">	
+						<?php
+							if(isset($_SESSION['$date'])) {	
+								echo Session::get('$basic_exercises');
+					
+								echo Session::get('$anaerobic_exercise');
+								echo Session::get('$metabolic_condition');
+							}
+						?>
+					</span>
+				</div>
 			<img src="/Project/app/assets/images/img/crossfit_2.jpg" alt="Workout of Day">
 				
 			
@@ -17,40 +32,41 @@
 		</a>
   	</div>
 
-  	<div class="box box__metabolic">
+  	<div class="box-index box-index-metabolic">
   		<a href="<?php echo URL;?>Metabolic">
-			<div class="postcard postcard__photo"><p class="index">O wytrzymałości</p>
+			<div class="postcard postcard__photo">
+				<p class="box-index-metabolic__text">Wytrzymałość</p>
 				<img src="/Project/app/assets/images/img/wytrzymalosc.jpg" alt="Workout of Day">
 			</div>
 	    </a>
   	</div>
 
-  	<div class="box box__strength">
+  	<div class="box-index box-index-strength">
   		<a href="<?php echo URL;?>Strength">
-			<div class="postcard postcard__photo"><p class="index">Jak zwiekszyć siłę</p>
+			<div class="postcard postcard__photo"><p class="box-index-strength__text">Jak zwiekszyć siłę</p>
 				<img src="/Project/app/assets/images/img/strength.jpg" alt="Workout of Day">
 			</div>
 		</a>
   	</div>
-  	<div class="box box__mobility">
+  	<div class="box-index box-index-mobility">
   		<a href="<?php echo URL;?>Mobility">
-			<div class="postcard postcard__photo"><p class="index">Rozciąganie</p>
+			<div class="postcard postcard__photo"><p class="box-index-mobility__text">Rozciąganie</p>
 				<img src="/Project/app/assets/images/img/stretching2.jpg" alt="Workout of Day">
 			</div>
 		</a>
   	</div>
 
-  	<div class="box box__diet">
+  	<div class="box-index box-index-diet">
   		<a href="<?php echo URL;?>Diet">
 			
-			<div class="postcard postcard__photo"><p class="index" style="color: #60a415;">Dieta i suplementacja</p>
+			<div class="postcard postcard__photo"><p class="box-index-diet__text">Dieta i suplementacja</p>
 				<img src="/Project/app/assets/images/img/dieta.jpg" alt="Workout of Day">
 			</div>
 			<!--Można wstawić przepis dnia-->
 		</a>
   	</div>
 
-  	<div class="box box__movie">
+  	<div class="box-index box-index-movie">
   		<div class="postcard">
 	  		<a href="<?php echo URL;?>Movie">
 				<!--Można wstawić ostatni dodany filmik-->
@@ -64,7 +80,7 @@
 			</a>
 		</div>
   	</div>
-  	<div class="box box__art1">
+  	<div class="box-index box-index-art1">
   		<div class="postcard postcard__photo">
 			<div class="overlay">
 				<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu">
@@ -77,7 +93,7 @@
 		
   	</div>
   	
-  	<div class="box box__art2">
+  	<div class="box-index box-index-art2">
   		<div class="postcard postcard__photo">
 			<div class="overlay">
 				<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu">
@@ -90,7 +106,7 @@
 		
   	</div>
   	
-  	<div class="box box__offering">
+  	<div class="box-index box-index-offering">
   		<div class="postcard postcard__photo">
 			<div class="overlay">
 				<a href ="<?php echo URL;?>AboutMe"><img src="/Project/app/assets/images/img/ketbells.jpg" alt="Offering">
