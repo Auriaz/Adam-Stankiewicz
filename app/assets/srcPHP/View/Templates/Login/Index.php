@@ -1,4 +1,5 @@
-<div class="content--login">
+<div class="content content--login content--transparent">
+
 <?php
 Session::init();
 
@@ -10,24 +11,40 @@ if(isset($_SESSION['Registered'])) {
 	}
 }
 ?>
+	<div class="box-login">
+
+
+		<div class="icon icon--user">
+		    <i class="icon-user"></i> 
+		             
+		</div><h2 class="box-login__title">Sing In</h2>
+
+		
 
 		<form action="Login/onLine" method="post">
 
-			 <input type="text" name="login" placeholder="Login lub adres e-mail" /> </br> </br>
-			 <input type="password" name="haslo" placeholder="hasło" /> </br>
-	<?php	
-	if(Session::get('$fault')) {
-		echo Session::get('$fault')."<br/>";
-		Session::destroy();
-	}
-	?>
-	</br>
-	<input type="submit" value="Zaloguj się" />
-		
+			<p class="box-login__text">Username</p>
+			<input type="text" name="login" placeholder="Login lub adres e-mail" /> 
+			<p class="box-login__text">Password</p>
+			<input type="password" name="haslo" placeholder="hasło" /> 
+			<?php	
+			if(Session::get('$fault')) {
+			echo Session::get('$fault')."<br/>";
+			Session::destroy();
+			}
+			?>
+			
+			<input class="btn btn--login" type="submit" value="Zaloguj się" />
+
 		</form>
 
 		<form action="Registration">
-		<input type="submit" value="Zarejestruj się" style="margin-top:  40px;" />
+			<input class="btn btn--login" type="submit" value="Zarejestruj się" />
 	    </form>
+	
+		<a href="<?php echo URL;?>#" > Forget password</a>
+	</div>
+
+		
 
 </div>

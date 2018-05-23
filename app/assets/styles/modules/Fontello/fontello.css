@@ -60,7 +60,7 @@
 .icon-youtube:before { content: '\e802'; } /* '' */
 .icon-twitter:before { content: '\e803'; } /* '' */
 .icon-mail:before { content: '\e804'; margin-top: 25px; font-size: 72px; } /* '' */
-.icon-user:before { content: '\e805'; margin-top: 25px; font-size: 72px; } /* '' */
+.icon-user:before { content: '\e805';  } /* '' */
 .icon-laptop:before { content: '\e806'; margin-top: 20px; font-size: 36px; } /* '' */
 .icon-mail-alt:before { content: '\e807'; } /* '' */
 .icon-graduation-cap:before { content: '\e808'; margin-top: 25px; font-size: 72px; } /* '' */

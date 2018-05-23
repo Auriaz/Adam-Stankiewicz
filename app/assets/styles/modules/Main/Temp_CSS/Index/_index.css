@@ -1,5 +1,5 @@
 .content--index {
-  grid-template-columns: 1fr 1fr 270px 270px; 
+  grid-template-columns: 1fr 1fr 1fr 1fr; 
   grid-template-rows: 1fr 1fr 330px 300px;
   grid-template-areas: 
     "workout workout metabolic strength"
@@ -9,13 +9,7 @@
 
   grid-column-gap: 20px;
   grid-row-gap: 20px;
-
-  padding: 10px;
-
-
   }
-
-
 
 .box-index {
  
@@ -34,24 +28,51 @@
          
       position: absolute;
       z-index: 2;
-      font-size: 25px;
+      font-size: 1.8rem;
       left: 0; 
       width: 100%; 
+      height: auto;
       top: 50%;
       transform: translateY(-70%);
-      padding: 20px;  
+      
      
     }
 
     &__title {
       font-weight: 700;
-      color: $mainOrange;
-      font-size: 2.8rem;
+      font-size: 1.2rem;
+      color: $mainBoxIndex_02;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, .1);
+
+       @mixin atSmall {
+        font-size: 1.6rem;
+      }
+
+      @mixin atMedium {
+         font-size: 2rem;
+      }
+
+      @mixin atLarge {
+         font-size: 2.8rem;
+      }
     }
 
     &__subtitle {
       font-weight: 300;
+      font-size: 1rem;
+      color: $mainBoxIndex_01;
 
+      @mixin atSmall {
+        font-size: 1.2rem;
+      }
+
+      @mixin atMedium {
+         font-size: 1.4rem;
+      }
+
+      @mixin atLarge {
+         font-size: 1.6rem;
+      }
     }
 
   }
@@ -61,16 +82,36 @@
     text-align: center;
     position: relative;
 
+     img {
+      width: 100%;
+      height: 100%;
+    }
+
     &__text {
       position: absolute;
       z-index: 2;
-      font-size: 25px;
       left: 0; 
       width: 100%;
-      height: 100%;
-      color: black;  
-      padding-top: 40px;     
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: 700;
+      font-size: 1rem;
+      color: $mainBoxIndex_01;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, .1); 
+
+       @mixin atSmall {
+        font-size: 1.2rem;
+      }
+
+      @mixin atMedium {
+         font-size: 1.4rem;
+      }
+
+      @mixin atLarge {
+         font-size: 1.6rem;
+      }    
     }
+
   }
 
   &-strength {
@@ -80,10 +121,28 @@
     &__text {
       position: absolute;
       z-index: 2;
-      font-size: 25px;
       left: 0; 
-      width: 100%;     
-    }    
+      width: 100%;
+      top: 50%;
+      transform: translateY(-50%); 
+      font-weight: 700;
+      font-size: 1rem;
+      color: $mainBoxIndex_02;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, .1);  
+
+             @mixin atSmall {
+        font-size: 1.2rem;
+      }
+
+      @mixin atMedium {
+         font-size: 1.4rem;
+      }
+
+      @mixin atLarge {
+         font-size: 1.6rem;
+      }    
+    } 
+
     img {
       width: 100%;
       height: 100%;
@@ -94,13 +153,35 @@
   &-mobility {
     grid-area: mobility;
     position: relative;
-    
+     
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
     &__text {
       position: absolute;
       z-index: 2;
-      font-size: 25px;
       left: 0; 
-      width: 100%;     
+      width: 100%;
+      top: 60%;
+      transform: translateY(-50%);
+      font-weight: 700;
+      font-size: 1rem;
+      color: $mainBoxIndex_02;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, .1);
+
+      @mixin atSmall {
+        font-size: 1.2rem;
+      }
+
+      @mixin atMedium {
+         font-size: 1.4rem;
+      }
+
+      @mixin atLarge {
+         font-size: 1.6rem;
+      } 
     }
   }
 
@@ -108,33 +189,65 @@
     grid-area: diet;
     position: relative;
 
-    
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
     &__text {
       position: absolute;
       z-index: 2;
-      font-size: 25px;
       left: 0; 
-      width: 100%;      
+      width: 100%;
+      top: 60%;
+      transform: translateY(-50%); 
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: $mainBoxIndex_01;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, .1); 
+
+      @mixin atSmall {
+        font-size: 1.2rem;
+      }
+
+      @mixin atMedium {
+         font-size: 1.4rem;
+      }
+
+      @mixin atLarge {
+         font-size: 1.6rem;
+      }  
     }
   }
 
   &-movie {
      	grid-area: movie;
-      text-align: center;
-      max-width: 100%;
-      height: auto;
+      
+   iframe {
+    width: 655px;
+    height: 315px;
+   }
   }
 
   &-art1 {
    	grid-area: art1;
+    font-size: 1rem;
+
   }
 
   &-art2 {
     grid-area: art2;
+    font-size: 1rem; 
   }
 
   &-offering {
    	grid-area: offering;
+    font-size: 1rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
 }

@@ -2,5 +2,31 @@ $mainBlue: #2f5572;
 $mainOrange: #E08000;
 $mainLithBlue: #39a5f1;
 $mainDarkBlue: #0059b3;
+$mainDarkBlue_02: #08101d;
 $mainGreen: #60a415;
-$mainDark: #303030;
+$mainDark: #000000;
+
+/* ## Nawigacja ## */
+$mainNav_01: #08101d; /* DarkBlue */
+$mainNav_02: #0059b3; /* Blue */
+$mainNav_03: #000000; /* Black */
+$mainNav_04: #E08000; /* Orange */
+$mainNav_05: #39a5f1; /* LithBlue */
+
+/* ## Box-Index ## */
+$mainBoxIndex_01: #E08000; /* Orange */
+$mainBoxIndex_02: #0059b3; /* Blue */
+
+/* ## Btn ##*/
+$mainBtn: #121830; /* DarkBlue */
+$mainBtnHover:   #154360; /* darkBlue */
+$mainBtnText:  #39a5f1; /* LithBlue */
+$mainBtnTextHover:  #E08000; /* Orange */
+$mainBtnBorder: #39a5f1; /* LithBlue */
+$mainBtnBorderHover: #ff9702; /* Orange */
+
+/* ## header ##*/
+$mainHeaderBackground: #08101d; /* DarkBlue */
+$mainHeaderBorder: #0059b3; /* Blue */
+$mainHeaderTextSmall: #fff; /* White */
+$mainHeaderTextLarge: #39a5f1; /* LithBlue */

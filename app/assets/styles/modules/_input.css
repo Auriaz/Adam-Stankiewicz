@@ -1,0 +1,26 @@
+input[type="text"],
+input[type="password"] {
+	color: #fff;
+	border: none;
+	border-bottom: 1px solid #fff;
+	font-size: 1.1rem;
+	height: 40px;
+	background: transparent;
+	outline: none;
+	margin: 0 0 20px 0;
+	width: 250px;
+	
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.95);
+		border: none;
+	border-bottom: 1px solid $mainLithBlue;
+	background-color: #c0c0c0;
+	color: $mainLithBlue;
+	background: transparent;
+}
+
+
+

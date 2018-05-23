@@ -1,5 +1,5 @@
 <article>
-  <div class="content content--index">
+  <div class="content content--index content--dark">
 
   	<div class="box-index box-index-workout">
   		<a href="<?php echo URL;?>Workout">	

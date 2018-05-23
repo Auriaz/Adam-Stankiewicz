@@ -5,7 +5,5 @@ grid-template-areas:
 "header"
 "main"
 "footer";
-
-grid-row-gap: 20px;
 }
 

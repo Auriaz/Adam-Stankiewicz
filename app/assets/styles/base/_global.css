@@ -1,6 +1,5 @@
 body{
-  	background-image: url("/Project/app/assets/images/img/kettlebell3.jpg");
-  	background-size: 100% 100%;
+  
 	color: white;
 	margin: 0 !important; 
 }
@@ -14,7 +13,7 @@ img {
 		box-sizing: border-box;
 }
 
-	a{
+	a {
 		color: $mainLithBlue;
 		text-decoration: none;
 	}
@@ -25,10 +24,10 @@ img {
 		margin-bottom: 10px;
 	}
 
-	h1{
+	h1 {
 		font-size:  32px;
 		font-weight: 400;
-		color: $mainLithBlue;
+		color: ;
 		margin-top: 45px;
 		margin-bottom: 45px;
 		letter-spacing: 10px;
@@ -36,68 +35,7 @@ img {
 
 	}
 
-	h3{
+	h3 {
 		color: #fff;
 	}
 
-input[type=text],
-input[type=password]
-{
-	
-	background-color: #efefef;
-	color: #666;
-	border: 2px solid #ddd;
-	border-radius:5px;
-	font-size: 20px;
-	padding: 5px;
-	box-sizing: border-box;
-	outline: none;
-	margin-top: 20px;
-	
-}
-
-input[type=text]:focus,
-input[type=password]:focus
-{
-    box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.95);
-	border: 2px solid #a5cda5;
-	background-color: #c0c0c0;
-	color: #101010;
-}
-
-input[type=submit]
-{
-	
-	background-color: $mainLithBlue;
-	color: white;
-
-	border-radius:5px;
-	font-size: 20px;
-	padding: 5px 30px;
-	margin-top: 30px;
-	border: none;
-	cursor: pointer;
-	letter-spacing: 2px;
-	outline: none;
-}
-
-input[type=submit]:focus
-{
-
-   box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.95);
-}
-
-input[type=submit]:hover
-{
-	background-color: #37b93d;
-}
-
-input::-webkit-input-placeholder
-{
-    color: #999;
-}
-
-input:focus::-webkit-input-placeholder
-{
-    color: #428C42;
-}

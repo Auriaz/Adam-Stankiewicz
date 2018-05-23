@@ -1,22 +1,26 @@
  /* ######## NAWIGACJA ######## */
-#navigation {	  
+#navigation {	
+
   z-index: 100;
-  background-color: $mainDark;
+  background-color: $mainNav_01;
+  
 }
 .nav {
       
  text-align: center;
- padding: 10px 0;
+ padding: 0.5vw 0;
  width: 100%;
- border-top: 2px solid $mainDarkBlue;
- border-bottom: 2px solid $mainDarkBlue;
-	
-}
-   
-.sticky {
+ border-top: 2px solid $mainNav_02;
+ border-bottom: 2px solid $mainNav_02;
    position: fixed;
    top: 0;
    left: 0;
+ 
+}
+
+   
+.sticky {
+
 
 }
 
@@ -27,7 +31,7 @@ ol.navi {
 	padding: 0;
 	margin: 0;
 	list-style-type: none;
-	font-size: 18px;
+	font-size: 1rem;
 	height: 38px;
 	line-height: 200%;
 	display: inline-block;
@@ -36,7 +40,7 @@ ol.navi {
 }
 
 ol.navi  a {
-	color: $mainLithBlue;
+	color: $mainNav_05;
 	text-decoration: none;
 	display: block;
 	
@@ -46,7 +50,7 @@ ol.navi > li {
 	float: left;
 	width: 150px;
 	height: 36px;
-	border-right: 2px dotted $mainDarkBlue;
+	border-right: 2px dotted $mainNav_02;
 	z-index: 5;
 	margin-left: auto;
 	margin-right: auto;
@@ -61,10 +65,16 @@ ol.navi > li:first-child {
 		top: 10px;
 		position: fixed;
 		font-size: 24px;
+		padding-left: 20px;
+}
+
+ol.navi > li:first-child:hover {
+		border:  none;
+	
 }
 
 ol.navi > li:nth-child(2) {
-		border-left: 2px dotted $mainDarkBlue;
+		border-left: 2px dotted $mainNav_02;
 
 }
 
@@ -73,16 +83,21 @@ ol.navi > li:last-child {
 		right: 0;
 		top: 0;
 		position: fixed;
-		font-size: 15px;
-		
+		font-size: .9rem;
 }
+
+ol.navi > li:last-child:hover {
+		border:  none;
+	
+}
+
 ol.navi > li:hover {
-	border-left: 2px solid $mainDarkBlue;	
-	background-color: #222;
+	border-left: 2px solid $mainNav_02;	
+	background-color: $mainNav_03;
 	
 }
 ol.navi > li:hover > a {
-	color: $mainOrange;
+	color: $mainNav_04;
 }
 ol.navi > li > ul {
 	font-weight: 400;
@@ -100,20 +115,20 @@ ol.navi > li:hover > ul {
 
 ol.navi > li  > ul > li {
 	
-	background-color: #222;
+	background-color: $mainNav_03;
 	 position: relative;
 	 z-index: 100;
-	 border-top: 2px dotted $mainDark;
+	 border-top: 2px dotted $mainNav_02;
 	 opacity: 0.9;
 	 letter-spacing: 2px;
 
 }
 ol.navi > li  > ul > li:hover {
-	background-color: #333;
+	background-color: $mainNav_01;
 
 
 }
 ol.navi > li  > ul > li:hover > a {
- color: $mainOrange;
+ color: $mainNav_04;
 
 }

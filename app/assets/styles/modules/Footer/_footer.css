@@ -1,11 +1,23 @@
 footer{
 	grid-area: footer; 
+	position: relative;
+	padding-top: 50px;
+	background-color: #101010;
+	border-top: 2px solid $mainDarkBlue;
+	z-index: 90;
 }
 
-.footer {
-	background-color: #101010;
+.footer-side {
+		
+	
 	padding: 20px;
 	text-align: center;
 	min-height:  40px;
+	
+
+	&__text {
+		margin: 80px;
+		display: block;
+	}
 
 }

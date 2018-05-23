@@ -1,0 +1,18 @@
+.wrapper {
+	@mixin atSmall {
+		padding-left: 20px;
+	}
+
+	@mixin atMedium {
+		padding-left: 50px;
+	}
+
+	@mixin atLarge {
+		padding-left: 100px;
+	}
+
+	@mixin atExtraLarge {
+		padding-left: 200px;
+	}
+
+}

@@ -7,6 +7,7 @@ Composer = require('composer');
 gulp.task('watch', function() {
   connect.server({}, function (){
     browserSync.init({
+      notify: false,
       proxy: 'http://localhost/Project/app/'
      
     });
@@ -33,6 +34,7 @@ gulp.task('watch', function() {
 
 
 gulp.task('cssInject', ['styles'], function() {
+
   return gulp.src('./app/temp/styles/styles.css')
     .pipe(browserSync.stream());
 });
