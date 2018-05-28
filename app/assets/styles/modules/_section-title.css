@@ -1,0 +1,13 @@
+.section-title {
+	grid-area: section-title;
+	font-size: 1.2rem;
+	text-align: center;
+	padding-top: 30px;
+	padding-bottom: 20px;
+	margin: 0;
+
+	@mixin atSmall {
+		font-size: 1.75rem;
+
+	}
+}

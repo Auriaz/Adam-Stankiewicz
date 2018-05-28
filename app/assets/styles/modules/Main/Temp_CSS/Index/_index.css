@@ -1,20 +1,49 @@
-.content--index {
-  grid-template-columns: 1fr 1fr 1fr 1fr; 
-  grid-template-rows: 1fr 1fr 330px 300px;
-  grid-template-areas: 
-    "workout workout metabolic strength"
-    "workout workout mobility diet"
-    "workout workout movie movie"
-    "art1 art2 offering offering";
+.box-index {
+  display: grid;
 
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
+  grid-template-columns: 360px; 
+  grid-template-rows: 400px ;
+  grid-template-areas: 
+    "workout"
+    "metabolic"
+    "strength"
+    "mobility"
+    "diet"
+    "offering";
+    
+  grid-column-gap: 0;
+  grid-row-gap: 0;
+ 
+  background-color: $mainDarkBlue_02;
+
+  @mixin atSmall {
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    grid-template-rows: 1fr 1fr 330px;
+    grid-template-areas: 
+      "workout workout metabolic strength"
+      "workout workout mobility diet"
+      "workout workout offering offering";
+
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    padding: 40px;  
   }
 
-.box-index {
- 
+  @mixin atExtraLarge {
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    grid-template-rows: 1fr 1fr 400px;
+    grid-template-areas: 
+      "workout workout metabolic strength"
+      "workout workout mobility diet"
+      "workout workout offering offering";
 
-  &-workout {
+    grid-column-gap: 30px;
+    grid-row-gap: 30px;
+    padding: 50px;  
+  
+  }
+
+  &--workout {
     grid-area: workout;
     position: relative;
 
@@ -23,9 +52,7 @@
       height: 100%;
     }
 
-
     &__text-content {
-         
       position: absolute;
       z-index: 2;
       font-size: 1.8rem;
@@ -33,18 +60,16 @@
       width: 100%; 
       height: auto;
       top: 50%;
-      transform: translateY(-70%);
-      
-     
+      transform: translateY(-70%); 
     }
 
     &__title {
       font-weight: 700;
       font-size: 1.2rem;
-      color: $mainBoxIndex_02;
-      text-shadow: 2px 2px 0 rgba(0, 0, 0, .1);
+      color: $mainBoxIndex_01;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, .7);
 
-       @mixin atSmall {
+      @mixin atSmall {
         font-size: 1.6rem;
       }
 
@@ -60,7 +85,7 @@
     &__subtitle {
       font-weight: 300;
       font-size: 1rem;
-      color: $mainBoxIndex_01;
+      color: $mainBoxIndex_02;
 
       @mixin atSmall {
         font-size: 1.2rem;
@@ -77,178 +102,89 @@
 
   }
 
-  &-metabolic {
+  &--metabolic {
     grid-area: metabolic;
-    text-align: center;
-    position: relative;
-
-     img {
-      width: 100%;
-      height: 100%;
-    }
-
-    &__text {
-      position: absolute;
-      z-index: 2;
-      left: 0; 
-      width: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      font-weight: 700;
-      font-size: 1rem;
-      color: $mainBoxIndex_01;
-      text-shadow: 2px 2px 0 rgba(0, 0, 0, .1); 
-
-       @mixin atSmall {
-        font-size: 1.2rem;
-      }
-
-      @mixin atMedium {
-         font-size: 1.4rem;
-      }
-
-      @mixin atLarge {
-         font-size: 1.6rem;
-      }    
-    }
-
   }
 
-  &-strength {
-    grid-area: strength; 
-    position: relative;
-    
-    &__text {
-      position: absolute;
-      z-index: 2;
-      left: 0; 
-      width: 100%;
-      top: 50%;
-      transform: translateY(-50%); 
-      font-weight: 700;
-      font-size: 1rem;
-      color: $mainBoxIndex_02;
-      text-shadow: 2px 2px 0 rgba(0, 0, 0, .1);  
-
-             @mixin atSmall {
-        font-size: 1.2rem;
-      }
-
-      @mixin atMedium {
-         font-size: 1.4rem;
-      }
-
-      @mixin atLarge {
-         font-size: 1.6rem;
-      }    
-    } 
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
-
+  &--strength {
+    grid-area: strength;
   }
 
-  &-mobility {
+  &--mobility {
     grid-area: mobility;
-    position: relative;
-     
-    img {
-      width: 100%;
-      height: 100%;
-    }
-
-    &__text {
-      position: absolute;
-      z-index: 2;
-      left: 0; 
-      width: 100%;
-      top: 60%;
-      transform: translateY(-50%);
-      font-weight: 700;
-      font-size: 1rem;
-      color: $mainBoxIndex_02;
-      text-shadow: 2px 2px 0 rgba(0, 0, 0, .1);
-
-      @mixin atSmall {
-        font-size: 1.2rem;
-      }
-
-      @mixin atMedium {
-         font-size: 1.4rem;
-      }
-
-      @mixin atLarge {
-         font-size: 1.6rem;
-      } 
-    }
   }
 
-  &-diet {
+  &--diet {
     grid-area: diet;
-    position: relative;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
-
-    &__text {
-      position: absolute;
-      z-index: 2;
-      left: 0; 
-      width: 100%;
-      top: 60%;
-      transform: translateY(-50%); 
-      font-weight: 700;
-      font-size: 1.8rem;
-      color: $mainBoxIndex_01;
-      text-shadow: 2px 2px 0 rgba(0, 0, 0, .1); 
-
-      @mixin atSmall {
-        font-size: 1.2rem;
-      }
-
-      @mixin atMedium {
-         font-size: 1.4rem;
-      }
-
-      @mixin atLarge {
-         font-size: 1.6rem;
-      }  
-    }
   }
 
-  &-movie {
-     	grid-area: movie;
-      
-   iframe {
-    width: 655px;
-    height: 315px;
-   }
+  &--offering {
+    grid-area: offering;
+  }
+}
+
+  
+
+
+
+
+.last-articles {
+  display: grid;
+
+  grid-template-columns: 1fr; 
+  grid-template-rows: 80px 200px;
+  grid-template-areas: 
+      "section-title"
+      "index__01"
+      "index__02"
+      "index__03"
+      "index__04";
+
+  grid-column-gap: 0;
+  grid-row-gap: 0;
+  background-color: rgba(35, 188, 188, 1);
+
+  @mixin atSmall{
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: 80px 200px;
+    grid-template-areas: 
+        "section-title section-title"
+        "index__01 index__02"
+         "index__03 index__04";
+
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    padding: 20px;
+    background-color: rgba(35, 188, 188, 1);
   }
 
-  &-art1 {
-   	grid-area: art1;
-    font-size: 1rem;
+  @mixin atMedium {
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    grid-template-rows: 80px 250px;
+    grid-template-areas: 
+        "section-title section-title section-title section-title"
+        "index__01 index__02 index__03 index__04";
 
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    padding: 20px 40px 60px 40px;
+    background-color: rgba(35, 188, 188, 0.7);
   }
 
-  &-art2 {
-    grid-area: art2;
-    font-size: 1rem; 
+  .postcard--index__01 {
+    grid-area: index__01;
   }
 
-  &-offering {
-   	grid-area: offering;
-    font-size: 1rem;
+   .postcard--index__02 {
+    grid-area: index__02;
+  }
 
-    img {
-      width: 100%;
-      height: 100%;
-    }
+   .postcard--index__03 {
+    grid-area: index__03;
+  }
+
+   .postcard--index__04 {
+    grid-area: index__04;
   }
 
 }
-

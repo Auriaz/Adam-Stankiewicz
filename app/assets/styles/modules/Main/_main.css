@@ -1,48 +1,8 @@
 main {
 	position: relative;
-	grid-area: main;
-	
+	grid-area: main;	
 	border-top: 2px solid $mainDarkBlue;
-	
+	background-color: rgba(0, 0, 0, 0.7);
 }
 
-.content {
-	width: 100%;
-	margin: auto;
- 	display: grid;
- 	padding: 40px;	
 
-	&--		
-
-	&--add {
-		text-align: center;
-		margin-left: auto;
-		margin-right:  auto;
-		
-	}
-
-	&--transparent {
-		width: 100%;
-		height: 100%;
-		position: fixed;
-		z-index: 90; 
-		background-color: rgba(0, 0, 0, 0.3);
-		top: 0;
-		left: 0;
-	}
-
-	&--blue {
-		background-color: $mainBlue;
-		padding-bottom: 40px;
-	}
-
-	&--dark {
-
-		background-color: $mainDarkBlue_02;
-		border-bottom: 2px solid $mainDarkBlue;
-	}
-
-	&--trans {
-		background-color: rgba(0, 0, 0, 0.1);
-	}
-}

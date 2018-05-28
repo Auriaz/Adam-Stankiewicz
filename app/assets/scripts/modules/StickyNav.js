@@ -8,7 +8,7 @@ import smoothScroll from 'jquery-smooth-scroll';
 		    $(document).ready(function()
 		    {
                 var stickyNavTop = $('.nav').offset().top;
-            	
+            	 
 			   
 			
                  var stickyNav = function()
@@ -20,12 +20,12 @@ import smoothScroll from 'jquery-smooth-scroll';
 
 						 
 				          $('.nav').addClass('sticky');
-		                  
+		                
                          
                    } else {
          
 				           $('.nav').removeClass('sticky');
-						  
+						      
                    }
              };
 

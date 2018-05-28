@@ -25,12 +25,16 @@ header {
          
 		position: absolute;
 		z-index: 2;
-		left: 0;
+		left: 5%;
 		width: 50%; 
-		top: 60%;
-		transform: translateY(-70%);
-		  text-align: center;
+		top: 30%;
+		transform: translateY(-50%);
+		text-align: center;
 
+		@mixin atSmall {
+			top: 50%;
+			transform: translateY(-70%);
+		}
     }
 
      &__text {

@@ -1,5 +1,5 @@
 .social-icons {
-display: block;
+
 	&__icon{
 			display: inline-block;
 		&:hover{ 
@@ -20,13 +20,39 @@ display: block;
 	}
 
 	&--footer {
-		font-size: 6rem;
-		padding: 30px;
+		font-size: 1.5rem;
+		padding: 5px;
 		background-color: #222;
 		color: #fff;
-		margin: 20px;
+		margin: 0;
 
+		@mixin atSmall {
+		font-size: 2rem;
+		padding: 10px;
+		margin: 5px;
+		}
+
+		@mixin atMedium {
+		font-size: 3rem;
+		padding: 15px;
+		margin: 10px;
+		
+		}
+
+		@mixin atLarge {
+		font-size: 6rem;
+		padding: 30px;
+		
+		
+		}
+
+		@mixin atExtraLarge {
+		font-size: 8rem;
+		padding: 40px;
+		margin: 45px;
+		}
 	}
+
 	&--youtube {
 	 margin-right: 10px;
 	 

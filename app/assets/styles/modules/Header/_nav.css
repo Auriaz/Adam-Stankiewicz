@@ -10,23 +10,23 @@
  text-align: center;
  padding: 0.5vw 0;
  width: 100%;
+ position: fixed;
+ top: 0;
+ left: 0;
  border-top: 2px solid $mainNav_02;
  border-bottom: 2px solid $mainNav_02;
-   position: fixed;
-   top: 0;
-   left: 0;
- 
 }
 
    
 .sticky {
-
+ color: red;
 
 }
 
 .panel {
 	
 }
+
 ol.navi {
 	padding: 0;
 	margin: 0;

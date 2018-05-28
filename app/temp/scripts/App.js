@@ -10490,7 +10490,7 @@ window.onload = zmienslajd;
 		    __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).ready(function()
 		    {
                 var stickyNavTop = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.nav').offset().top;
-            	
+            	 
 			   
 			
                  var stickyNav = function()
@@ -10502,12 +10502,12 @@ window.onload = zmienslajd;
 
 						 
 				          __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.nav').addClass('sticky');
-		                  
+		                
                          
                    } else {
          
 				           __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.nav').removeClass('sticky');
-						  
+						      
                    }
              };
 

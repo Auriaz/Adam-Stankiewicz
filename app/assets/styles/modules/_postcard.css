@@ -3,8 +3,6 @@
 	width: 100%;
 	height: 100%;
 
-
-
 	
 
 	&__photo {
@@ -15,53 +13,91 @@
 	  text-align: center;
 
 		img {
+			width: 100%;
+			height: 100%;
 			transition: all 0.5s ease-in-out;
 		}
-
-		p.index {
-			z-index: 2;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			font-size: 25px;
-			color: $mainLithBlue;
-			text-decoration: bolt;
-			padding: 10px;		
-		}
-
 	}
 
 	&__photo:hover img {
 		transform: scale(1.15);
 	}
 
+	&--halo {
+		&:hover {
+		box-shadow: 0 0 10px $mainDarkBlue;
+		}
+
+		&:hover .postcard__text {
+			color: red;
+		}
+	}
+
+	&__title {
+	
+		width: 100%;
+		position: absolute;
+		bottom: 0;
+		margin: 0;
+		left: 0;
+		color: #fff;
+		font-weight: 700;
+		background-color: rgba(0, 0, 0, 0.7);
+		padding: 10px;
+	}
+
+	&__text {
+	  position: absolute;
+      z-index: 1;
+      left: 0; 
+      width: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: 700;
+      font-size: 1rem;
+      color: $mainBoxIndex_01;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, .7); 
+
+     @mixin atSmall {
+        font-size: 1.2rem;
+      }
+
+      @mixin atMedium {
+         font-size: 1.4rem;
+      }
+
+      @mixin atLarge {
+         font-size: 1.6rem;
+      } 
+	}
 }
 
-.postcard:hover {
-		box-shadow: 0 0 10px $mainDarkBlue;
-	}
+
 
 .overlay {
 	position: relative;
 	width: 100%;
 	height: 100%;
-}
 
-.overlay .link {
-	position: absolute;
-	display: block;
-	width: 100%;
-	height: 65%;
-	background-color: #111;
-	left: 0;
-	bottom: 0;
-	opacity: 0;
-	transition: opacity 0.5s ease-in-out;
-	text-align: justify;
-	padding-left: 5px;
-	padding-right: 5px;
-}
+	&__link {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 65%;
+		background-color: #111;
+		left: 0;
+		bottom: 0;
+		opacity: 0;
+		transition: opacity 0.5s ease-in-out;
+		text-align: justify;
+		padding-left: 5px;
+		padding-right: 5px;
+		margin: 0;
+	}
 
-.overlay:hover .link {
+	&:hover .overlay__link{
 	opacity: 0.8;
+	z-index: 1;
+	}
+
 }
