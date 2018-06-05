@@ -1,0 +1,22 @@
+.grid {
+	&--information-section {
+		grid-template-areas: 
+		      	"section-title section-title"
+		      	"columns__01 columns__02 "
+       			"columns__03 columns__04";
+	}
+
+	&__columns {
+		&--2 {
+			grid-template-columns: 1fr 1fr;
+		}
+
+	}
+
+	&__rows {
+		&--3 {
+			grid-template-rows: 80px 250px 250px;
+    		
+		}
+	}
+}

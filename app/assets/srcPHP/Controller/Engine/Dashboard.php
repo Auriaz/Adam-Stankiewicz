@@ -11,7 +11,7 @@ class Dashboard extends Controller {
 		if($logged == false) {
 
 			Session::destroy();			
-			header('Location: Login');
+			header('Location: ../Login');
 			exit();
 		}
 		
@@ -21,6 +21,7 @@ class Dashboard extends Controller {
 	function Index() {
 		
 		$this ->View ->Render("Dashboard/Index");
+		
 		
 	}
 

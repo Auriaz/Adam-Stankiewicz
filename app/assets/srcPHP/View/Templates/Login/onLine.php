@@ -1,3 +1,1 @@
-
-<p>zalogowany</p>
-
+<h1>Zalogowany</h1>

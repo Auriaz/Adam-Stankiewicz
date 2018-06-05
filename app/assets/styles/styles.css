@@ -14,6 +14,8 @@
 @import "modules/Footer/_footer";
 @import "modules/Main/_main";
 @import "modules/Main/_content";
+@import "modules/Main/Temp_CSS/Index/_last-articles";
+@import "modules/Main/Temp_CSS/Index/_information-section";
 @import "modules/Main/Temp_CSS/Index/_index";
 @import "modules/Main/Temp_CSS/Diet/_index";
 @import "modules/Main/Temp_CSS/Login/_index";
@@ -27,3 +29,4 @@
 @import "modules/_btn";
 @import "modules/_social-icons";
 @import "modules/_section-title";
+@import "modules/_sprite";

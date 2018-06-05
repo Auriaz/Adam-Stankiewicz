@@ -1,0 +1,52 @@
+/* Do not edit modules/_sprite directly as it is generated automatically by Gulp.
+Instead edit gulp/templates/sprite */
+
+    .icons {
+      background-image: url('../../assets/images/sprites/sprite-70ed1ab0.svg');
+    }
+
+    .no-svg .icons {
+      background-image: url('../../assets/images/sprites/sprite-70ed1ab0.png');
+    }
+
+  .icons--comment {
+    width: 66px;
+    height: 66px;
+    background-position: 0 0;
+  }
+
+  .icons--fire {
+    width: 58px;
+    height: 66px;
+    background-position: 34.02061855670103% 0;
+  }
+
+  .icons--globe {
+    width: 66px;
+    height: 66px;
+    background-position: 66.66666666666667% 0;
+  }
+
+  .icons--mail {
+    width: 66px;
+    height: 50px;
+    background-position: 0 50%;
+  }
+
+  .icons--rain {
+    width: 66px;
+    height: 66px;
+    background-position: 0 100%;
+  }
+
+  .icons--star {
+    width: 66px;
+    height: 66px;
+    background-position: 35.483870967741936% 100%;
+  }
+
+  .icons--wifi {
+    width: 62px;
+    height: 66px;
+    background-position: 100% 0;
+  }

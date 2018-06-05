@@ -34,7 +34,7 @@ gulp.task('beginClean', function() {
 });
 
 gulp.task('createSprite', ['beginClean'], function() {
-  return gulp.src('./app/assets/images/icons/**/*.svg')
+  return gulp.src('./app/assets/images/icons/svg/*.svg')
     .pipe(svgSprite(config))
     .pipe(gulp.dest('./app/temp/sprite/'));
 });

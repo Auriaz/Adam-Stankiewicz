@@ -1,7 +1,7 @@
 </main>
 <footer>
 	<div class="footer-side">
-		<div class="social-icons">
+		<div class="social-icons social-icons--footer">
 	     
 	   		<a href="https://youtube.com" target="_blank" class="social-icons__icon">
 	   			<span class="icon icon--youtube icon--footer">

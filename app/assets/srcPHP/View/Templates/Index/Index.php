@@ -135,7 +135,41 @@
 			<h3 class="postcard__title">Odkwaszanie organizmu – hit czy kit?</h3>
 		</div>
 
-	  </div>
+	</div>
+
+	<div class="information-section" >
+	  
+	    <h2 class="section-title">
+	    	<span class="icons icons--star section-title__icon" ></span> Sekcja  <strong>Informacyjna</strong>
+	    </h2>
+
+	       <div class="information-section__columns information-section--01">
+				<span class="icons icons--fire information-section__icon"></span>
+				<h3 class="information-section__title">We&rsquo;ll Watch the Weather</h3>
+				<p>Download our app and we&rsquo;ll send you a notice if it&rsquo;s about to rain in the next 20 minutes around your current location. A good rain can be refreshing, but sometimes you just want to stay dry.</p>
+	        </div>
+
+	        <div class="information-section__columns information-section--02">
+	         	<span class="icons icons--globe information-section__icon"></span>
+	          	<h3 class="information-section__title">Global Guides</h3>
+	         	 <p>We&rsquo;ve scoured the entire planet for the best retreats and beautiful vistas. If there&rsquo;s a corner of the world you want to escape to we know the most scenic and inspiring locations.</p>
+	        </div>
+	      
+	        
+	       
+	        <div class="information-section__columns information-section--03">
+				<span class="icons icons--rain information-section__icon"></span>
+				<h3 class="information-section__title">Wi-Fi Waypoints</h3>
+				<p>We only send you on trips to places we can personally vouch for as being amazing. Which means we&rsquo;ve mapped out where local wi-fi spots are and marked them in our app&rsquo;s map view.</p>
+	        </div>
+
+	        <div class="information-section__columns information-section--04">
+				<span class="icons icons--wifi information-section__icon"></span>
+				<h3 class="information-section__title">Survival Kit</h3>
+				<p>Everytime you book an escape with us we send you a survival kit with the finest materials. The kit will allow you to setup a tent, start a fire, scratch your own back and lower your taxes.</p>
+	        </div> 
+	  
+  	</div>
 
   </div>
 </article>

@@ -19,7 +19,7 @@
 		height: 100%;
 		position: fixed;
 		z-index: 90; 
-		background-color: rgba(0, 0, 0, 0.3);
+		background-color: rgba(0, 0, 0, .5);
 		top: 0;
 		left: 0;
 	}

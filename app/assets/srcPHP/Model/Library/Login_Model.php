@@ -4,14 +4,14 @@ class Login_Model extends Model {
 
 	function __construct() {
 		parent::__construct();
-
+    Session::init();
 	}
 
   public function onLine() {
    // Pobranie danych z bazy poprzez Model 
    $Connect = $_POST['Connect'];
 
-    Session::init();
+    
     $email = $_POST['login'];
     $login = $_POST['login'];
     $haslo = $_POST['haslo'];  
@@ -45,6 +45,7 @@ class Login_Model extends Model {
           
           header('Location: ../Dashboard');
           $result->free_result();
+
         }else{
            header('Location: ../Login');
 

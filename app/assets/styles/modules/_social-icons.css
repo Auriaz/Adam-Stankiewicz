@@ -1,5 +1,8 @@
 .social-icons {
+	&--footer {
 
+		margin: 70px;
+	}
 	&__icon{
 			display: inline-block;
 		&:hover{ 
@@ -22,7 +25,7 @@
 	&--footer {
 		font-size: 1.5rem;
 		padding: 5px;
-		background-color: #222;
+		background-color: rgba(60, 60, 60, .9);
 		color: #fff;
 		margin: 0;
 
@@ -42,14 +45,14 @@
 		@mixin atLarge {
 		font-size: 6rem;
 		padding: 30px;
-		
+		margin: 40px;
 		
 		}
 
 		@mixin atExtraLarge {
 		font-size: 8rem;
 		padding: 40px;
-		margin: 45px;
+		margin-top: 45px;
 		}
 	}
 

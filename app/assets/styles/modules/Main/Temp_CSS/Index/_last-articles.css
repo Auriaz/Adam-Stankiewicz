@@ -1,0 +1,60 @@
+.last-articles {
+  display: grid;
+
+  grid-template-columns: 1fr; 
+  grid-template-rows: 80px 200px;
+  grid-template-areas: 
+      "section-title"
+      "index__01"
+      "index__02"
+      "index__03"
+      "index__04";
+
+  grid-column-gap: 0;
+  grid-row-gap: 0;
+  background-color: rgba(35, 188, 188, 1);
+
+  @mixin atSmall{
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: 80px 200px;
+    grid-template-areas: 
+        "section-title section-title"
+        "index__01 index__02"
+         "index__03 index__04";
+
+    grid-column-gap: 2rem;
+    grid-row-gap: 1rem;
+    padding: 20px;
+    background-color: rgba(35, 188, 188, 1);
+  }
+
+  @mixin atMedium {
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    grid-template-rows: 80px 250px;
+    grid-template-areas: 
+        "section-title section-title section-title section-title"
+        "index__01 index__02 index__03 index__04";
+
+    grid-column-gap: 3rem;
+    grid-row-gap: 5rem;
+    padding: 0 2.5rem 5rem 2.5rem;
+    background-color: rgba(35, 188, 188, 0.7);
+  }
+
+  .postcard--index__01 {
+    grid-area: index__01;
+  }
+
+   .postcard--index__02 {
+    grid-area: index__02;
+  }
+
+   .postcard--index__03 {
+    grid-area: index__03;
+  }
+
+   .postcard--index__04 {
+    grid-area: index__04;
+  }
+
+}
