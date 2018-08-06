@@ -1,84 +1,84 @@
 <article>
-  <div class="content">
-	<header>
-		<h1 style="text-align: center;">Siła</h1>
-	</header>
-	
-<div class="postcard">
-		<div class="postcard__photo">
+	<div class="content content--basic content--dark">
+
+		<h3 class="section-title"> Siła i moc </h3>
+		
+
+		<div class="postcard postcard__photo postcard--strength__01">
 			<div class="overlay">
-					<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu"></a>
-					<a class="link" href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><p>Przeglądając internetowe fora często trafiam na informacje o diecie odkwaszającej, o tym jak bardzo narażeni jesteśmy na zakwaszenie i jak wielce jest to niebezpieczne...</p><p style="right:0; position: absolute; font-size: 15px;">01 Deceber 2017 </p></a>
+				<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img class="overlay__image" src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu">
+
+				<p class="overlay__link">Przeglądając internetowe fora często trafiam na informacje o diecie odkwaszającej, o tym jak bardzo narażeni jesteśmy na zakwaszenie i jak wielce jest to niebezpieczne...</p>
+				</a>
 
 			</div>
+			
+			<h3 class="postcard__title">Odkwaszanie organizmu – hit czy kit?</h3>
 		</div>
-		<h3>Odkwaszanie organizmu – hit czy kit?</h3>
-	</div>
-
-	<div class="postcard">
-		<div class="postcard__photo">
+		
+		<div class="postcard postcard__photo postcard--strength__02">
 			<div class="overlay">
-					<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu"></a>
-					<a class="link" href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><p>Przeglądając internetowe fora często trafiam na informacje o diecie odkwaszającej, o tym jak bardzo narażeni jesteśmy na zakwaszenie i jak wielce jest to niebezpieczne...</p><p style="right:0; position: absolute; font-size: 15px;">01 Deceber 2017 </p></a>
+				<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img class="overlay__image" src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu">
+
+				<p class="overlay__link">Przeglądając internetowe fora często trafiam na informacje o diecie odkwaszającej, o tym jak bardzo narażeni jesteśmy na zakwaszenie i jak wielce jest to niebezpieczne...</p>
+				</a>
 
 			</div>
+
+			<h3 class="postcard__title">Odkwaszanie organizmu – hit czy kit?</h3>
 		</div>
-		<h3>Odkwaszanie organizmu – hit czy kit?</h3>
-	</div>
 
-	
 
-	<div class="postcard">
-		<div class="postcard__photo">
+		<div class="postcard postcard__photo postcard--strength__03">
 			<div class="overlay">
-					<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu"></a>
-					<a class="link" href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><p>Przeglądając internetowe fora często trafiam na informacje o diecie odkwaszającej, o tym jak bardzo narażeni jesteśmy na zakwaszenie i jak wielce jest to niebezpieczne...</p><p style="right:0; position: absolute; font-size: 15px;">01 Deceber 2017 </p></a>
+				<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img class="overlay__image" src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu">
+
+				<p class="overlay__link">Przeglądając internetowe fora często trafiam na informacje o diecie odkwaszającej, o tym jak bardzo narażeni jesteśmy na zakwaszenie i jak wielce jest to niebezpieczne...</p>
+				</a>
 
 			</div>
+			
+			<h3 class="postcard__title">Odkwaszanie organizmu – hit czy kit?</h3>
 		</div>
-		<h3>Odkwaszanie organizmu – hit czy kit?</h3>
-	</div>
-	
 
-<div class="postcard">
-		<div class="postcard__photo">
+		<div class="postcard postcard__photo postcard--strength__04">
 			<div class="overlay">
-					<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu"></a>
-					<a class="link" href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><p>Przeglądając internetowe fora często trafiam na informacje o diecie odkwaszającej, o tym jak bardzo narażeni jesteśmy na zakwaszenie i jak wielce jest to niebezpieczne...</p><p style="right:0; position: absolute; font-size: 15px;">01 Deceber 2017 </p></a>
+				<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img class="overlay__image" src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu">
+
+				<p class="overlay__link">Przeglądając internetowe fora często trafiam na informacje o diecie odkwaszającej, o tym jak bardzo narażeni jesteśmy na zakwaszenie i jak wielce jest to niebezpieczne...</p>
+				</a>
 
 			</div>
+			
+			<h3 class="postcard__title">Odkwaszanie organizmu – hit czy kit?</h3>
 		</div>
-		<h3>Odkwaszanie organizmu – hit czy kit?</h3>
-	</div>
-
-	
-
-	<div class="postcard">
-		<div class="postcard__photo">
+		
+		<div class="postcard postcard__photo postcard--strength__05">
 			<div class="overlay">
-					<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu"></a>
-					<a class="link" href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><p>Przeglądając internetowe fora często trafiam na informacje o diecie odkwaszającej, o tym jak bardzo narażeni jesteśmy na zakwaszenie i jak wielce jest to niebezpieczne...</p><p style="right:0; position: absolute; font-size: 15px;">01 Deceber 2017 </p></a>
+				<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img class="overlay__image" src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu">
+
+				<p class="overlay__link">Przeglądając internetowe fora często trafiam na informacje o diecie odkwaszającej, o tym jak bardzo narażeni jesteśmy na zakwaszenie i jak wielce jest to niebezpieczne...</p>
+				</a>
 
 			</div>
-		</div>
-		<h3>Odkwaszanie organizmu – hit czy kit?</h3>
-	</div>
 
-	
-	<div class="postcard">
-		<div class="postcard__photo">
+			<h3 class="postcard__title">Odkwaszanie organizmu – hit czy kit?</h3>
+		</div>
+
+
+		<div class="postcard postcard__photo postcard--strength__06">
 			<div class="overlay">
-					<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu"></a>
-					<a class="link" href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><p>Przeglądając internetowe fora często trafiam na informacje o diecie odkwaszającej, o tym jak bardzo narażeni jesteśmy na zakwaszenie i jak wielce jest to niebezpieczne...</p><p style="right:0; position: absolute; font-size: 15px;">01 Deceber 2017 </p></a>
+				<a href ="<?php echo URL;?>Diet/Nutrition/Zakwaszenie"><img class="overlay__image" src="http://www.jacekbilczynski.pl/wp-content/uploads/2017/12/zakwaszenie.jpg" alt="Zakwaszenie organizmu">
+
+				<p class="overlay__link">Przeglądając internetowe fora często trafiam na informacje o diecie odkwaszającej, o tym jak bardzo narażeni jesteśmy na zakwaszenie i jak wielce jest to niebezpieczne...</p>
+				</a>
 
 			</div>
+			
+			<h3 class="postcard__title">Odkwaszanie organizmu – hit czy kit?</h3>
 		</div>
-		<h3>Odkwaszanie organizmu – hit czy kit?</h3>
-	</div>
-
 	
-
- </div>
+	</div>
 
 
 </article>

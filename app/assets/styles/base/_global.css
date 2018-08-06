@@ -1,6 +1,5 @@
-body{
-  
-	color: white;
+body {
+	color: #fff;
 	margin: 0 !important; 
 }
 
@@ -27,12 +26,10 @@ img {
 	h1 {
 		font-size:  32px;
 		font-weight: 400;
-		color: ;
 		margin-top: 45px;
 		margin-bottom: 45px;
 		letter-spacing: 10px;
 		text-transform: uppercase;
-
 	}
 
 	h3 {

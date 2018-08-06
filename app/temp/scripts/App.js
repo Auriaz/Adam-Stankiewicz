@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -10380,7 +10380,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(28);
+__webpack_require__(32);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
@@ -10395,10 +10395,773 @@ exports.clearImmediate = clearImmediate;
 //     require('tinymce/plugins/wordcount')
 //   ES2015:
 //     import 'tinymce/plugins/wordcount'
-__webpack_require__(97);
+__webpack_require__(101);
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+/*!
+Waypoints - 4.0.1
+Copyright © 2011-2016 Caleb Troughton
+Licensed under the MIT license.
+https://github.com/imakewebthings/waypoints/blob/master/licenses.txt
+*/
+(function() {
+  'use strict'
+
+  var keyCounter = 0
+  var allWaypoints = {}
+
+  /* http://imakewebthings.com/waypoints/api/waypoint */
+  function Waypoint(options) {
+    if (!options) {
+      throw new Error('No options passed to Waypoint constructor')
+    }
+    if (!options.element) {
+      throw new Error('No element option passed to Waypoint constructor')
+    }
+    if (!options.handler) {
+      throw new Error('No handler option passed to Waypoint constructor')
+    }
+
+    this.key = 'waypoint-' + keyCounter
+    this.options = Waypoint.Adapter.extend({}, Waypoint.defaults, options)
+    this.element = this.options.element
+    this.adapter = new Waypoint.Adapter(this.element)
+    this.callback = options.handler
+    this.axis = this.options.horizontal ? 'horizontal' : 'vertical'
+    this.enabled = this.options.enabled
+    this.triggerPoint = null
+    this.group = Waypoint.Group.findOrCreate({
+      name: this.options.group,
+      axis: this.axis
+    })
+    this.context = Waypoint.Context.findOrCreateByElement(this.options.context)
+
+    if (Waypoint.offsetAliases[this.options.offset]) {
+      this.options.offset = Waypoint.offsetAliases[this.options.offset]
+    }
+    this.group.add(this)
+    this.context.add(this)
+    allWaypoints[this.key] = this
+    keyCounter += 1
+  }
+
+  /* Private */
+  Waypoint.prototype.queueTrigger = function(direction) {
+    this.group.queueTrigger(this, direction)
+  }
+
+  /* Private */
+  Waypoint.prototype.trigger = function(args) {
+    if (!this.enabled) {
+      return
+    }
+    if (this.callback) {
+      this.callback.apply(this, args)
+    }
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/destroy */
+  Waypoint.prototype.destroy = function() {
+    this.context.remove(this)
+    this.group.remove(this)
+    delete allWaypoints[this.key]
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/disable */
+  Waypoint.prototype.disable = function() {
+    this.enabled = false
+    return this
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/enable */
+  Waypoint.prototype.enable = function() {
+    this.context.refresh()
+    this.enabled = true
+    return this
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/next */
+  Waypoint.prototype.next = function() {
+    return this.group.next(this)
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/previous */
+  Waypoint.prototype.previous = function() {
+    return this.group.previous(this)
+  }
+
+  /* Private */
+  Waypoint.invokeAll = function(method) {
+    var allWaypointsArray = []
+    for (var waypointKey in allWaypoints) {
+      allWaypointsArray.push(allWaypoints[waypointKey])
+    }
+    for (var i = 0, end = allWaypointsArray.length; i < end; i++) {
+      allWaypointsArray[i][method]()
+    }
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/destroy-all */
+  Waypoint.destroyAll = function() {
+    Waypoint.invokeAll('destroy')
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/disable-all */
+  Waypoint.disableAll = function() {
+    Waypoint.invokeAll('disable')
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/enable-all */
+  Waypoint.enableAll = function() {
+    Waypoint.Context.refreshAll()
+    for (var waypointKey in allWaypoints) {
+      allWaypoints[waypointKey].enabled = true
+    }
+    return this
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/refresh-all */
+  Waypoint.refreshAll = function() {
+    Waypoint.Context.refreshAll()
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/viewport-height */
+  Waypoint.viewportHeight = function() {
+    return window.innerHeight || document.documentElement.clientHeight
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/viewport-width */
+  Waypoint.viewportWidth = function() {
+    return document.documentElement.clientWidth
+  }
+
+  Waypoint.adapters = []
+
+  Waypoint.defaults = {
+    context: window,
+    continuous: true,
+    enabled: true,
+    group: 'default',
+    horizontal: false,
+    offset: 0
+  }
+
+  Waypoint.offsetAliases = {
+    'bottom-in-view': function() {
+      return this.context.innerHeight() - this.adapter.outerHeight()
+    },
+    'right-in-view': function() {
+      return this.context.innerWidth() - this.adapter.outerWidth()
+    }
+  }
+
+  window.Waypoint = Waypoint
+}())
+;(function() {
+  'use strict'
+
+  function requestAnimationFrameShim(callback) {
+    window.setTimeout(callback, 1000 / 60)
+  }
+
+  var keyCounter = 0
+  var contexts = {}
+  var Waypoint = window.Waypoint
+  var oldWindowLoad = window.onload
+
+  /* http://imakewebthings.com/waypoints/api/context */
+  function Context(element) {
+    this.element = element
+    this.Adapter = Waypoint.Adapter
+    this.adapter = new this.Adapter(element)
+    this.key = 'waypoint-context-' + keyCounter
+    this.didScroll = false
+    this.didResize = false
+    this.oldScroll = {
+      x: this.adapter.scrollLeft(),
+      y: this.adapter.scrollTop()
+    }
+    this.waypoints = {
+      vertical: {},
+      horizontal: {}
+    }
+
+    element.waypointContextKey = this.key
+    contexts[element.waypointContextKey] = this
+    keyCounter += 1
+    if (!Waypoint.windowContext) {
+      Waypoint.windowContext = true
+      Waypoint.windowContext = new Context(window)
+    }
+
+    this.createThrottledScrollHandler()
+    this.createThrottledResizeHandler()
+  }
+
+  /* Private */
+  Context.prototype.add = function(waypoint) {
+    var axis = waypoint.options.horizontal ? 'horizontal' : 'vertical'
+    this.waypoints[axis][waypoint.key] = waypoint
+    this.refresh()
+  }
+
+  /* Private */
+  Context.prototype.checkEmpty = function() {
+    var horizontalEmpty = this.Adapter.isEmptyObject(this.waypoints.horizontal)
+    var verticalEmpty = this.Adapter.isEmptyObject(this.waypoints.vertical)
+    var isWindow = this.element == this.element.window
+    if (horizontalEmpty && verticalEmpty && !isWindow) {
+      this.adapter.off('.waypoints')
+      delete contexts[this.key]
+    }
+  }
+
+  /* Private */
+  Context.prototype.createThrottledResizeHandler = function() {
+    var self = this
+
+    function resizeHandler() {
+      self.handleResize()
+      self.didResize = false
+    }
+
+    this.adapter.on('resize.waypoints', function() {
+      if (!self.didResize) {
+        self.didResize = true
+        Waypoint.requestAnimationFrame(resizeHandler)
+      }
+    })
+  }
+
+  /* Private */
+  Context.prototype.createThrottledScrollHandler = function() {
+    var self = this
+    function scrollHandler() {
+      self.handleScroll()
+      self.didScroll = false
+    }
+
+    this.adapter.on('scroll.waypoints', function() {
+      if (!self.didScroll || Waypoint.isTouch) {
+        self.didScroll = true
+        Waypoint.requestAnimationFrame(scrollHandler)
+      }
+    })
+  }
+
+  /* Private */
+  Context.prototype.handleResize = function() {
+    Waypoint.Context.refreshAll()
+  }
+
+  /* Private */
+  Context.prototype.handleScroll = function() {
+    var triggeredGroups = {}
+    var axes = {
+      horizontal: {
+        newScroll: this.adapter.scrollLeft(),
+        oldScroll: this.oldScroll.x,
+        forward: 'right',
+        backward: 'left'
+      },
+      vertical: {
+        newScroll: this.adapter.scrollTop(),
+        oldScroll: this.oldScroll.y,
+        forward: 'down',
+        backward: 'up'
+      }
+    }
+
+    for (var axisKey in axes) {
+      var axis = axes[axisKey]
+      var isForward = axis.newScroll > axis.oldScroll
+      var direction = isForward ? axis.forward : axis.backward
+
+      for (var waypointKey in this.waypoints[axisKey]) {
+        var waypoint = this.waypoints[axisKey][waypointKey]
+        if (waypoint.triggerPoint === null) {
+          continue
+        }
+        var wasBeforeTriggerPoint = axis.oldScroll < waypoint.triggerPoint
+        var nowAfterTriggerPoint = axis.newScroll >= waypoint.triggerPoint
+        var crossedForward = wasBeforeTriggerPoint && nowAfterTriggerPoint
+        var crossedBackward = !wasBeforeTriggerPoint && !nowAfterTriggerPoint
+        if (crossedForward || crossedBackward) {
+          waypoint.queueTrigger(direction)
+          triggeredGroups[waypoint.group.id] = waypoint.group
+        }
+      }
+    }
+
+    for (var groupKey in triggeredGroups) {
+      triggeredGroups[groupKey].flushTriggers()
+    }
+
+    this.oldScroll = {
+      x: axes.horizontal.newScroll,
+      y: axes.vertical.newScroll
+    }
+  }
+
+  /* Private */
+  Context.prototype.innerHeight = function() {
+    /*eslint-disable eqeqeq */
+    if (this.element == this.element.window) {
+      return Waypoint.viewportHeight()
+    }
+    /*eslint-enable eqeqeq */
+    return this.adapter.innerHeight()
+  }
+
+  /* Private */
+  Context.prototype.remove = function(waypoint) {
+    delete this.waypoints[waypoint.axis][waypoint.key]
+    this.checkEmpty()
+  }
+
+  /* Private */
+  Context.prototype.innerWidth = function() {
+    /*eslint-disable eqeqeq */
+    if (this.element == this.element.window) {
+      return Waypoint.viewportWidth()
+    }
+    /*eslint-enable eqeqeq */
+    return this.adapter.innerWidth()
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/context-destroy */
+  Context.prototype.destroy = function() {
+    var allWaypoints = []
+    for (var axis in this.waypoints) {
+      for (var waypointKey in this.waypoints[axis]) {
+        allWaypoints.push(this.waypoints[axis][waypointKey])
+      }
+    }
+    for (var i = 0, end = allWaypoints.length; i < end; i++) {
+      allWaypoints[i].destroy()
+    }
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/context-refresh */
+  Context.prototype.refresh = function() {
+    /*eslint-disable eqeqeq */
+    var isWindow = this.element == this.element.window
+    /*eslint-enable eqeqeq */
+    var contextOffset = isWindow ? undefined : this.adapter.offset()
+    var triggeredGroups = {}
+    var axes
+
+    this.handleScroll()
+    axes = {
+      horizontal: {
+        contextOffset: isWindow ? 0 : contextOffset.left,
+        contextScroll: isWindow ? 0 : this.oldScroll.x,
+        contextDimension: this.innerWidth(),
+        oldScroll: this.oldScroll.x,
+        forward: 'right',
+        backward: 'left',
+        offsetProp: 'left'
+      },
+      vertical: {
+        contextOffset: isWindow ? 0 : contextOffset.top,
+        contextScroll: isWindow ? 0 : this.oldScroll.y,
+        contextDimension: this.innerHeight(),
+        oldScroll: this.oldScroll.y,
+        forward: 'down',
+        backward: 'up',
+        offsetProp: 'top'
+      }
+    }
+
+    for (var axisKey in axes) {
+      var axis = axes[axisKey]
+      for (var waypointKey in this.waypoints[axisKey]) {
+        var waypoint = this.waypoints[axisKey][waypointKey]
+        var adjustment = waypoint.options.offset
+        var oldTriggerPoint = waypoint.triggerPoint
+        var elementOffset = 0
+        var freshWaypoint = oldTriggerPoint == null
+        var contextModifier, wasBeforeScroll, nowAfterScroll
+        var triggeredBackward, triggeredForward
+
+        if (waypoint.element !== waypoint.element.window) {
+          elementOffset = waypoint.adapter.offset()[axis.offsetProp]
+        }
+
+        if (typeof adjustment === 'function') {
+          adjustment = adjustment.apply(waypoint)
+        }
+        else if (typeof adjustment === 'string') {
+          adjustment = parseFloat(adjustment)
+          if (waypoint.options.offset.indexOf('%') > - 1) {
+            adjustment = Math.ceil(axis.contextDimension * adjustment / 100)
+          }
+        }
+
+        contextModifier = axis.contextScroll - axis.contextOffset
+        waypoint.triggerPoint = Math.floor(elementOffset + contextModifier - adjustment)
+        wasBeforeScroll = oldTriggerPoint < axis.oldScroll
+        nowAfterScroll = waypoint.triggerPoint >= axis.oldScroll
+        triggeredBackward = wasBeforeScroll && nowAfterScroll
+        triggeredForward = !wasBeforeScroll && !nowAfterScroll
+
+        if (!freshWaypoint && triggeredBackward) {
+          waypoint.queueTrigger(axis.backward)
+          triggeredGroups[waypoint.group.id] = waypoint.group
+        }
+        else if (!freshWaypoint && triggeredForward) {
+          waypoint.queueTrigger(axis.forward)
+          triggeredGroups[waypoint.group.id] = waypoint.group
+        }
+        else if (freshWaypoint && axis.oldScroll >= waypoint.triggerPoint) {
+          waypoint.queueTrigger(axis.forward)
+          triggeredGroups[waypoint.group.id] = waypoint.group
+        }
+      }
+    }
+
+    Waypoint.requestAnimationFrame(function() {
+      for (var groupKey in triggeredGroups) {
+        triggeredGroups[groupKey].flushTriggers()
+      }
+    })
+
+    return this
+  }
+
+  /* Private */
+  Context.findOrCreateByElement = function(element) {
+    return Context.findByElement(element) || new Context(element)
+  }
+
+  /* Private */
+  Context.refreshAll = function() {
+    for (var contextId in contexts) {
+      contexts[contextId].refresh()
+    }
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/context-find-by-element */
+  Context.findByElement = function(element) {
+    return contexts[element.waypointContextKey]
+  }
+
+  window.onload = function() {
+    if (oldWindowLoad) {
+      oldWindowLoad()
+    }
+    Context.refreshAll()
+  }
+
+
+  Waypoint.requestAnimationFrame = function(callback) {
+    var requestFn = window.requestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      requestAnimationFrameShim
+    requestFn.call(window, callback)
+  }
+  Waypoint.Context = Context
+}())
+;(function() {
+  'use strict'
+
+  function byTriggerPoint(a, b) {
+    return a.triggerPoint - b.triggerPoint
+  }
+
+  function byReverseTriggerPoint(a, b) {
+    return b.triggerPoint - a.triggerPoint
+  }
+
+  var groups = {
+    vertical: {},
+    horizontal: {}
+  }
+  var Waypoint = window.Waypoint
+
+  /* http://imakewebthings.com/waypoints/api/group */
+  function Group(options) {
+    this.name = options.name
+    this.axis = options.axis
+    this.id = this.name + '-' + this.axis
+    this.waypoints = []
+    this.clearTriggerQueues()
+    groups[this.axis][this.name] = this
+  }
+
+  /* Private */
+  Group.prototype.add = function(waypoint) {
+    this.waypoints.push(waypoint)
+  }
+
+  /* Private */
+  Group.prototype.clearTriggerQueues = function() {
+    this.triggerQueues = {
+      up: [],
+      down: [],
+      left: [],
+      right: []
+    }
+  }
+
+  /* Private */
+  Group.prototype.flushTriggers = function() {
+    for (var direction in this.triggerQueues) {
+      var waypoints = this.triggerQueues[direction]
+      var reverse = direction === 'up' || direction === 'left'
+      waypoints.sort(reverse ? byReverseTriggerPoint : byTriggerPoint)
+      for (var i = 0, end = waypoints.length; i < end; i += 1) {
+        var waypoint = waypoints[i]
+        if (waypoint.options.continuous || i === waypoints.length - 1) {
+          waypoint.trigger([direction])
+        }
+      }
+    }
+    this.clearTriggerQueues()
+  }
+
+  /* Private */
+  Group.prototype.next = function(waypoint) {
+    this.waypoints.sort(byTriggerPoint)
+    var index = Waypoint.Adapter.inArray(waypoint, this.waypoints)
+    var isLast = index === this.waypoints.length - 1
+    return isLast ? null : this.waypoints[index + 1]
+  }
+
+  /* Private */
+  Group.prototype.previous = function(waypoint) {
+    this.waypoints.sort(byTriggerPoint)
+    var index = Waypoint.Adapter.inArray(waypoint, this.waypoints)
+    return index ? this.waypoints[index - 1] : null
+  }
+
+  /* Private */
+  Group.prototype.queueTrigger = function(waypoint, direction) {
+    this.triggerQueues[direction].push(waypoint)
+  }
+
+  /* Private */
+  Group.prototype.remove = function(waypoint) {
+    var index = Waypoint.Adapter.inArray(waypoint, this.waypoints)
+    if (index > -1) {
+      this.waypoints.splice(index, 1)
+    }
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/first */
+  Group.prototype.first = function() {
+    return this.waypoints[0]
+  }
+
+  /* Public */
+  /* http://imakewebthings.com/waypoints/api/last */
+  Group.prototype.last = function() {
+    return this.waypoints[this.waypoints.length - 1]
+  }
+
+  /* Private */
+  Group.findOrCreate = function(options) {
+    return groups[options.axis][options.name] || new Group(options)
+  }
+
+  Waypoint.Group = Group
+}())
+;(function() {
+  'use strict'
+
+  var Waypoint = window.Waypoint
+
+  function isWindow(element) {
+    return element === element.window
+  }
+
+  function getWindow(element) {
+    if (isWindow(element)) {
+      return element
+    }
+    return element.defaultView
+  }
+
+  function NoFrameworkAdapter(element) {
+    this.element = element
+    this.handlers = {}
+  }
+
+  NoFrameworkAdapter.prototype.innerHeight = function() {
+    var isWin = isWindow(this.element)
+    return isWin ? this.element.innerHeight : this.element.clientHeight
+  }
+
+  NoFrameworkAdapter.prototype.innerWidth = function() {
+    var isWin = isWindow(this.element)
+    return isWin ? this.element.innerWidth : this.element.clientWidth
+  }
+
+  NoFrameworkAdapter.prototype.off = function(event, handler) {
+    function removeListeners(element, listeners, handler) {
+      for (var i = 0, end = listeners.length - 1; i < end; i++) {
+        var listener = listeners[i]
+        if (!handler || handler === listener) {
+          element.removeEventListener(listener)
+        }
+      }
+    }
+
+    var eventParts = event.split('.')
+    var eventType = eventParts[0]
+    var namespace = eventParts[1]
+    var element = this.element
+
+    if (namespace && this.handlers[namespace] && eventType) {
+      removeListeners(element, this.handlers[namespace][eventType], handler)
+      this.handlers[namespace][eventType] = []
+    }
+    else if (eventType) {
+      for (var ns in this.handlers) {
+        removeListeners(element, this.handlers[ns][eventType] || [], handler)
+        this.handlers[ns][eventType] = []
+      }
+    }
+    else if (namespace && this.handlers[namespace]) {
+      for (var type in this.handlers[namespace]) {
+        removeListeners(element, this.handlers[namespace][type], handler)
+      }
+      this.handlers[namespace] = {}
+    }
+  }
+
+  /* Adapted from jQuery 1.x offset() */
+  NoFrameworkAdapter.prototype.offset = function() {
+    if (!this.element.ownerDocument) {
+      return null
+    }
+
+    var documentElement = this.element.ownerDocument.documentElement
+    var win = getWindow(this.element.ownerDocument)
+    var rect = {
+      top: 0,
+      left: 0
+    }
+
+    if (this.element.getBoundingClientRect) {
+      rect = this.element.getBoundingClientRect()
+    }
+
+    return {
+      top: rect.top + win.pageYOffset - documentElement.clientTop,
+      left: rect.left + win.pageXOffset - documentElement.clientLeft
+    }
+  }
+
+  NoFrameworkAdapter.prototype.on = function(event, handler) {
+    var eventParts = event.split('.')
+    var eventType = eventParts[0]
+    var namespace = eventParts[1] || '__default'
+    var nsHandlers = this.handlers[namespace] = this.handlers[namespace] || {}
+    var nsTypeList = nsHandlers[eventType] = nsHandlers[eventType] || []
+
+    nsTypeList.push(handler)
+    this.element.addEventListener(eventType, handler)
+  }
+
+  NoFrameworkAdapter.prototype.outerHeight = function(includeMargin) {
+    var height = this.innerHeight()
+    var computedStyle
+
+    if (includeMargin && !isWindow(this.element)) {
+      computedStyle = window.getComputedStyle(this.element)
+      height += parseInt(computedStyle.marginTop, 10)
+      height += parseInt(computedStyle.marginBottom, 10)
+    }
+
+    return height
+  }
+
+  NoFrameworkAdapter.prototype.outerWidth = function(includeMargin) {
+    var width = this.innerWidth()
+    var computedStyle
+
+    if (includeMargin && !isWindow(this.element)) {
+      computedStyle = window.getComputedStyle(this.element)
+      width += parseInt(computedStyle.marginLeft, 10)
+      width += parseInt(computedStyle.marginRight, 10)
+    }
+
+    return width
+  }
+
+  NoFrameworkAdapter.prototype.scrollLeft = function() {
+    var win = getWindow(this.element)
+    return win ? win.pageXOffset : this.element.scrollLeft
+  }
+
+  NoFrameworkAdapter.prototype.scrollTop = function() {
+    var win = getWindow(this.element)
+    return win ? win.pageYOffset : this.element.scrollTop
+  }
+
+  NoFrameworkAdapter.extend = function() {
+    var args = Array.prototype.slice.call(arguments)
+
+    function merge(target, obj) {
+      if (typeof target === 'object' && typeof obj === 'object') {
+        for (var key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            target[key] = obj[key]
+          }
+        }
+      }
+
+      return target
+    }
+
+    for (var i = 1, end = args.length; i < end; i++) {
+      merge(args[0], args[i])
+    }
+    return args[0]
+  }
+
+  NoFrameworkAdapter.inArray = function(element, array, i) {
+    return array == null ? -1 : array.indexOf(element, i)
+  }
+
+  NoFrameworkAdapter.isEmptyObject = function(obj) {
+    /* eslint no-unused-vars: 0 */
+    for (var name in obj) {
+      return false
+    }
+    return true
+  }
+
+  Waypoint.adapters.push({
+    name: 'noframework',
+    Adapter: NoFrameworkAdapter
+  })
+  Waypoint.Adapter = NoFrameworkAdapter
+}())
+;
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
 var g;
@@ -10425,60 +11188,179 @@ module.exports = g;
 
 
 /***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-
-
-/*  ####  SLIDER  ####  */
-
-var numer = Math.floor(Math.random()*5)+1;
-var timer1 = 0;
-var timer2 = 0;
-
-function ustawslajd(nrslajdu) {
-	clearTimeout(timer1);
-	clearTimeout(timer2);
-	numer = nrslajdu - 1;
-	
-	schowaj();
-	setTimeout("zmienslajd()", 0);
-	
-}
-
-function schowaj() {
-	__WEBPACK_IMPORTED_MODULE_0_jquery___default()("#slider").fadeOut(500);
-}
-
-function zmienslajd() {
-	numer++;
-
-    if(numer>5) numer = 1;
-	
-	var plik = "<img src=\"/Project/app/assets/images/img/slajdy/slajd" + numer + ".jpg\" />";
-	
-	document.getElementById("slider").innerHTML = plik;
-	__WEBPACK_IMPORTED_MODULE_0_jquery___default()("#slider").fadeIn(500);
-	
-	timer1 = setTimeout("zmienslajd()",3000);
-	timer2 = setTimeout("schowaj()", 0);
-}
-
-window.onload = zmienslajd;
-
-/***/ }),
 /* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_waypoints_lib_noframework_waypoints__ = __webpack_require__(101);
+
+
+class Dashboard {
+	constructor() {
+		this.RandomInsert = __WEBPACK_IMPORTED_MODULE_0_jquery___default()("#randomInsert");
+		this.ListInsert = __WEBPACK_IMPORTED_MODULE_0_jquery___default()("#listInsert");	
+		this.events();	
+	}
+
+	DeleteListing(id) {
+		var that = this;
+
+		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.post('DeleteListing', {'id': id}, function(o) {
+			that.parent().remove();	
+		}, 'json');
+	}
+
+	events() {
+		this.RandomInsert.push(this.GetListings.bind(this));
+		this.RandomInsert.submit(this.PostInsert.bind(this));
+	}
+
+	GetListings() {
+		var that = this;
+
+		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.get('Dashboard/GetListings', function(o) {	
+			var count = Object.keys(o).length;
+			
+			for (var i = 0; i < count; i++) {
+				that.ListInsert.append('<div>'+ o[i].text +'<a class="del" rel="'+ o[i].id +'" href="#">X</a></div>');
+			}
+			
+			__WEBPACK_IMPORTED_MODULE_0_jquery___default()('.del').click(function(){
+				var id = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).attr('rel');
+				that.DeleteListing(id);
+			});
+		}, 'json');
+
+		return false;
+	}
+
+	PostInsert() {
+		var that = this;
+		var urls = this.RandomInsert.attr('action');
+		var data = this.RandomInsert.serialize();
+		
+		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.post(urls, data, function(o) {
+
+			that.ListInsert.append('<div>'+ o.text +'<a class="del" rel="'+ o.id +'" href="#">X</a></div>');
+			
+			__WEBPACK_IMPORTED_MODULE_0_jquery___default()('.del').click(function(){
+				var id = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).attr('rel');
+				that.DeleteListing(id);
+			});
+		}, 'json');
+
+		return false;
+	}
+}
+/* harmony default export */ __webpack_exports__["a"] = (Dashboard);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+
+
+class MobileMenu {
+  constructor() {
+    this.menuIcon = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(".header-side__menu-icon");
+    this.menuContent = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(".header-side__menu-content");
+    this.events();
+  }
+
+  events() {
+    this.menuIcon.click(this.toggleTheMenu.bind(this));
+  }
+
+  toggleTheMenu() {
+    this.menuContent.toggleClass("header-side__menu-content--is-visible");
+    this.menuIcon.toggleClass("header-side__menu-icon--close-x");
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (MobileMenu);
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+
+
+class PreventDelete {
+	constructor() {
+	  	this.delete = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(".delete");
+	  	this.events();
+	}
+
+	events() {
+	  	this.delete.click(this.preventDel.bind(this));
+	}
+
+	preventDel() {
+  		var c = confirm('Czy jesteś pewien, że chcesz usunąć ?');
+
+  		if (c == false) return false;
+	}
+}
+/* harmony default export */ __webpack_exports__["a"] = (PreventDelete);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_waypoints_lib_noframework_waypoints__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_waypoints_lib_noframework_waypoints___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__node_modules_waypoints_lib_noframework_waypoints__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery_smooth_scroll__ = __webpack_require__(26);
+
+
+
+class RevealOnSroll {
+  constructor(els, offset) {
+  this.itemsToReveal = els;
+  this.offsetPercetage = offset;
+  this.hideInitially();
+  this.createWaypoints();
+ }
+
+ hideInitially(){
+ 	this.itemsToReveal.addClass("reveal-item");
+ }
+
+ createWaypoints(){
+ 	var that = this;
+ 	this.itemsToReveal.each(function(){
+ 		var currentItem = this;
+     new Waypoint({
+     	element: currentItem,
+     	handler: function(){
+          __WEBPACK_IMPORTED_MODULE_0_jquery___default()(currentItem).addClass("reveal-item--is-visible");
+     	},
+     	offset: that.offsetPercetage
+     });
+ 	});
+ }
+}
+ 
+/* harmony default export */ __webpack_exports__["a"] = (RevealOnSroll);
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_waypoints_lib_noframework_waypoints__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_waypoints_lib_noframework_waypoints___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__node_modules_waypoints_lib_noframework_waypoints__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery_smooth_scroll__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery_smooth_scroll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery_smooth_scroll__);
 
 
@@ -10486,117 +11368,128 @@ window.onload = zmienslajd;
 
 
 /*  #### Przyklejanie nawigacji  ####  */
+class StickyNav {
+  constructor() {
+    this.primeryNav = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.primery-nav');  
+    this.sybolNav = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.primery-nav__ordered-list__sybol');
+    this.socialNav = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.primery-nav__ordered-list__social-icons');
+    this.headerTriggerElement = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(".content");
+    this.createHeaderWaypoint();
+    this.headerLinks = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(".primary-nav a");
+    this.addSmoothScrolling();  
+  }
 
-		    __WEBPACK_IMPORTED_MODULE_0_jquery___default()(document).ready(function()
-		    {
-                var stickyNavTop = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.nav').offset().top;
-            	 
-			   
-			
-                 var stickyNav = function()
-			       {
-                      var scrollTop = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(window).scrollTop();
+ addSticky() {
+    this.primeryNav.addClass('primery-nav--sticky-nav');
+    this.sybolNav.addClass('primery-nav__ordered-list__sybol--sticky-nav');
+    this.socialNav.addClass('primery-nav__ordered-list__social-icons--sticky-nav');
+  }
 
-                      if (scrollTop > stickyNavTop)
-						      { 
+  removeSticky() {
+    this.primeryNav.removeClass('primery-nav--sticky-nav');
+    this.sybolNav.removeClass('primery-nav__ordered-list__sybol--sticky-nav');
+    this.socialNav.removeClass('primery-nav__ordered-list__social-icons--sticky-nav');
+  }
 
-						 
-				          __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.nav').addClass('sticky');
-		                
-                         
-                   } else {
-         
-				           __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.nav').removeClass('sticky');
-						      
-                   }
-             };
+   addSmoothScrolling() {
+    this.headerLinks.smoothScroll();
+  }
 
-               stickyNav();
+  createHeaderWaypoint() {
+    var that = this;
+    new Waypoint({
+       element: this.headerTriggerElement[0],
+      handler: function(direction) {
+        if (direction == "down") {
+          that.addSticky();
+        } else {
+          that.removeSticky();
+        }
+      }
+    });
+  }
+}
 
-               __WEBPACK_IMPORTED_MODULE_0_jquery___default()(window).scroll(function()  
-			    {
-                  stickyNav();
-                });
-            });
+/* harmony default export */ __webpack_exports__["a"] = (StickyNav);
 
 /***/ }),
-/* 6 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tinymce_tinymce__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tinymce_tinymce__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tinymce_tinymce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_tinymce_tinymce__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tinymce_themes_modern_theme__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tinymce_themes_modern_theme__ = __webpack_require__(103);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tinymce_themes_modern_theme___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_tinymce_themes_modern_theme__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_tinymce_plugins_paste__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_tinymce_plugins_paste__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_tinymce_plugins_paste___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_tinymce_plugins_paste__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_tinymce_plugins_link__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_tinymce_plugins_link__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_tinymce_plugins_link___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_tinymce_plugins_link__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_tinymce_plugins_autoresize__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_tinymce_plugins_autoresize__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_tinymce_plugins_autoresize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_tinymce_plugins_autoresize__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tinymce_plugins_imagetools__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tinymce_plugins_imagetools__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tinymce_plugins_imagetools___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_tinymce_plugins_imagetools__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_tinymce_plugins_table__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_tinymce_plugins_table__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_tinymce_plugins_table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_tinymce_plugins_table__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_tinymce_plugins_wordcount__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_tinymce_plugins_wordcount___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_tinymce_plugins_wordcount__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_tinymce_plugins_image__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_tinymce_plugins_image__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_tinymce_plugins_image___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_tinymce_plugins_image__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_tinymce_plugins_media__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_tinymce_plugins_media__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_tinymce_plugins_media___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_tinymce_plugins_media__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_tinymce_plugins_advlist__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_tinymce_plugins_advlist__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_tinymce_plugins_advlist___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_tinymce_plugins_advlist__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_tinymce_plugins_autolink__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_tinymce_plugins_autolink__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_tinymce_plugins_autolink___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_tinymce_plugins_autolink__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_tinymce_plugins_charmap__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_tinymce_plugins_charmap__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_tinymce_plugins_charmap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_tinymce_plugins_charmap__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_tinymce_plugins_print__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_tinymce_plugins_print__ = __webpack_require__(81);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_tinymce_plugins_print___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_tinymce_plugins_print__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_tinymce_plugins_preview__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_tinymce_plugins_preview__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_tinymce_plugins_preview___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_tinymce_plugins_preview__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_tinymce_plugins_hr__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_tinymce_plugins_hr__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_tinymce_plugins_hr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_tinymce_plugins_hr__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_tinymce_plugins_anchor__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_tinymce_plugins_anchor__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_tinymce_plugins_anchor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16_tinymce_plugins_anchor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_tinymce_plugins_pagebreak__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_tinymce_plugins_pagebreak__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_tinymce_plugins_pagebreak___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17_tinymce_plugins_pagebreak__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_tinymce_plugins_searchreplace__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_tinymce_plugins_searchreplace__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_tinymce_plugins_searchreplace___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18_tinymce_plugins_searchreplace__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_tinymce_plugins_visualblocks__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_tinymce_plugins_visualblocks__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_tinymce_plugins_visualblocks___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19_tinymce_plugins_visualblocks__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_tinymce_plugins_visualchars__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_tinymce_plugins_visualchars__ = __webpack_require__(99);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_tinymce_plugins_visualchars___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20_tinymce_plugins_visualchars__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_tinymce_plugins_code__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_tinymce_plugins_code__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_tinymce_plugins_code___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_21_tinymce_plugins_code__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_tinymce_plugins_fullscreen__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_tinymce_plugins_fullscreen__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_tinymce_plugins_fullscreen___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22_tinymce_plugins_fullscreen__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_tinymce_plugins_insertdatetime__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_tinymce_plugins_insertdatetime__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_tinymce_plugins_insertdatetime___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_23_tinymce_plugins_insertdatetime__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_tinymce_plugins_nonbreaking__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_tinymce_plugins_nonbreaking__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_tinymce_plugins_nonbreaking___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24_tinymce_plugins_nonbreaking__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_tinymce_plugins_save__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_tinymce_plugins_save__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_tinymce_plugins_save___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_25_tinymce_plugins_save__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_tinymce_plugins_contextmenu__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_tinymce_plugins_contextmenu__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_tinymce_plugins_contextmenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_26_tinymce_plugins_contextmenu__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27_tinymce_plugins_directionality__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27_tinymce_plugins_directionality__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27_tinymce_plugins_directionality___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_27_tinymce_plugins_directionality__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28_tinymce_plugins_template__ = __webpack_require__(85);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28_tinymce_plugins_template__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28_tinymce_plugins_template___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_28_tinymce_plugins_template__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29_tinymce_plugins_textcolor__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29_tinymce_plugins_textcolor__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29_tinymce_plugins_textcolor___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_29_tinymce_plugins_textcolor__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_tinymce_plugins_colorpicker__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_tinymce_plugins_colorpicker__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_tinymce_plugins_colorpicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_30_tinymce_plugins_colorpicker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31_tinymce_plugins_textpattern__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31_tinymce_plugins_textpattern__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31_tinymce_plugins_textpattern___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_31_tinymce_plugins_textpattern__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32_tinymce_plugins_codesample__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32_tinymce_plugins_codesample__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32_tinymce_plugins_codesample___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_32_tinymce_plugins_codesample__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33_tinymce_plugins_toc__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33_tinymce_plugins_toc__ = __webpack_require__(95);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_33_tinymce_plugins_toc___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_33_tinymce_plugins_toc__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34_tinymce_plugins_help__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34_tinymce_plugins_help__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_34_tinymce_plugins_help___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_34_tinymce_plugins_help__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35_tinymce_plugins_emoticons__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35_tinymce_plugins_emoticons__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_35_tinymce_plugins_emoticons___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_35_tinymce_plugins_emoticons__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36_tinymce_plugins_lists__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36_tinymce_plugins_lists__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_36_tinymce_plugins_lists___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_36_tinymce_plugins_lists__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_37_jquery__);
@@ -10649,7 +11542,7 @@ window.onload = zmienslajd;
 
 
 // File loader that handles moving the skin files
-__webpack_require__(98)
+__webpack_require__(102)
 
 
 
@@ -10700,30 +11593,34 @@ __WEBPACK_IMPORTED_MODULE_0_tinymce_tinymce___default.a.init({
 
 
 /***/ }),
-/* 7 */,
-/* 8 */,
-/* 9 */
+/* 11 */,
+/* 12 */,
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_Slider__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_initTinymce__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_StickyNav__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_Dashboard__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_MobileMenu__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_RevealOnScroll__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_PreventDelete__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_initTinymce__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_StickyNav__ = __webpack_require__(9);
 
 
-//import MobileMenu from './modules/MobileMenu';
-//import RevealOnScroll from './modules/RevealOnScroll';
+
+
+
 //import StickyHeader from './modules/StickyHeader';
 //import Modal from './modules/Modal';
 //import SuperTest from './modules/SuperTest'
 
+//import './modules/Slider';
 
 
-
-
+//import AddWork from './modules/AddWork';
 
  //import './modules/Editor';
 //import './modules/getData';
@@ -10734,105 +11631,110 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 //import './modules/tabSlideStart';
+var dashboard = new __WEBPACK_IMPORTED_MODULE_1__modules_Dashboard__["a" /* default */]();
+//var addWork = new AddWork();
+var mobileMenu = new __WEBPACK_IMPORTED_MODULE_2__modules_MobileMenu__["a" /* default */]();
 
-//var mobileMenu = new MobileMenu();
-//new RevealOnScroll($(".feature-item"),"85%");
+new __WEBPACK_IMPORTED_MODULE_3__modules_RevealOnScroll__["a" /* default */](__WEBPACK_IMPORTED_MODULE_0_jquery___default()(".information-section__columns"),"65%");
+new __WEBPACK_IMPORTED_MODULE_3__modules_RevealOnScroll__["a" /* default */](__WEBPACK_IMPORTED_MODULE_0_jquery___default()(".postcard"),"80%");
+var stickyNav = new __WEBPACK_IMPORTED_MODULE_6__modules_StickyNav__["a" /* default */]();
+var preventDelete = new __WEBPACK_IMPORTED_MODULE_4__modules_PreventDelete__["a" /* default */]();
 //new RevealOnScroll($(".testimonials"), "65%");
 //var stickyHeader = new StickyHeader(); 
 
 /***/ }),
-/* 10 */,
-/* 11 */
+/* 14 */,
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/content.inline.min.css";
 
 /***/ }),
-/* 12 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/content.min.css";
 
 /***/ }),
-/* 13 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/fonts/tinymce-small.eot";
 
 /***/ }),
-/* 14 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/fonts/tinymce-small.svg";
 
 /***/ }),
-/* 15 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/fonts/tinymce-small.ttf";
 
 /***/ }),
-/* 16 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/fonts/tinymce-small.woff";
 
 /***/ }),
-/* 17 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/fonts/tinymce.eot";
 
 /***/ }),
-/* 18 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/fonts/tinymce.svg";
 
 /***/ }),
-/* 19 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/fonts/tinymce.ttf";
 
 /***/ }),
-/* 20 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/fonts/tinymce.woff";
 
 /***/ }),
-/* 21 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/img/anchor.gif";
 
 /***/ }),
-/* 22 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/img/loader.gif";
 
 /***/ }),
-/* 23 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/img/object.gif";
 
 /***/ }),
-/* 24 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/img/trans.gif";
 
 /***/ }),
-/* 25 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "skins/lightgray/skin.min.css";
 
 /***/ }),
-/* 26 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -11199,7 +12101,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 27 */
+/* 31 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -11389,7 +12291,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 28 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -11579,10 +12481,10 @@ process.umask = function() { return 0; };
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(27)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(31)))
 
 /***/ }),
-/* 29 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "advlist" plugin for usage with module loaders
@@ -11591,10 +12493,10 @@ process.umask = function() { return 0; };
 //     require('tinymce/plugins/advlist')
 //   ES2015:
 //     import 'tinymce/plugins/advlist'
-__webpack_require__(30);
+__webpack_require__(34);
 
 /***/ }),
-/* 30 */
+/* 34 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -11856,7 +12758,7 @@ dem('tinymce.plugins.advlist.Plugin')();
 
 
 /***/ }),
-/* 31 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "anchor" plugin for usage with module loaders
@@ -11865,10 +12767,10 @@ dem('tinymce.plugins.advlist.Plugin')();
 //     require('tinymce/plugins/anchor')
 //   ES2015:
 //     import 'tinymce/plugins/anchor'
-__webpack_require__(32);
+__webpack_require__(36);
 
 /***/ }),
-/* 32 */
+/* 36 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -12109,7 +13011,7 @@ dem('tinymce.plugins.anchor.Plugin')();
 
 
 /***/ }),
-/* 33 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "autolink" plugin for usage with module loaders
@@ -12118,10 +13020,10 @@ dem('tinymce.plugins.anchor.Plugin')();
 //     require('tinymce/plugins/autolink')
 //   ES2015:
 //     import 'tinymce/plugins/autolink'
-__webpack_require__(34);
+__webpack_require__(38);
 
 /***/ }),
-/* 34 */
+/* 38 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -12483,7 +13385,7 @@ dem('tinymce.plugins.autolink.Plugin')();
 
 
 /***/ }),
-/* 35 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "autoresize" plugin for usage with module loaders
@@ -12492,10 +13394,10 @@ dem('tinymce.plugins.autolink.Plugin')();
 //     require('tinymce/plugins/autoresize')
 //   ES2015:
 //     import 'tinymce/plugins/autoresize'
-__webpack_require__(36);
+__webpack_require__(40);
 
 /***/ }),
-/* 36 */
+/* 40 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -12843,7 +13745,7 @@ dem('tinymce.plugins.autoresize.Plugin')();
 
 
 /***/ }),
-/* 37 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "charmap" plugin for usage with module loaders
@@ -12852,10 +13754,10 @@ dem('tinymce.plugins.autoresize.Plugin')();
 //     require('tinymce/plugins/charmap')
 //   ES2015:
 //     import 'tinymce/plugins/charmap'
-__webpack_require__(38);
+__webpack_require__(42);
 
 /***/ }),
-/* 38 */
+/* 42 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -13478,7 +14380,7 @@ dem('tinymce.plugins.charmap.Plugin')();
 
 
 /***/ }),
-/* 39 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "code" plugin for usage with module loaders
@@ -13487,10 +14389,10 @@ dem('tinymce.plugins.charmap.Plugin')();
 //     require('tinymce/plugins/code')
 //   ES2015:
 //     import 'tinymce/plugins/code'
-__webpack_require__(40);
+__webpack_require__(44);
 
 /***/ }),
-/* 40 */
+/* 44 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -13699,7 +14601,7 @@ dem('tinymce.plugins.code.Plugin')();
 
 
 /***/ }),
-/* 41 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "codesample" plugin for usage with module loaders
@@ -13708,10 +14610,10 @@ dem('tinymce.plugins.code.Plugin')();
 //     require('tinymce/plugins/codesample')
 //   ES2015:
 //     import 'tinymce/plugins/codesample'
-__webpack_require__(42);
+__webpack_require__(46);
 
 /***/ }),
-/* 42 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {(function () {
@@ -15100,10 +16002,10 @@ define(
 dem('tinymce.plugins.codesample.Plugin')();
 })();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 43 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "colorpicker" plugin for usage with module loaders
@@ -15112,10 +16014,10 @@ dem('tinymce.plugins.codesample.Plugin')();
 //     require('tinymce/plugins/colorpicker')
 //   ES2015:
 //     import 'tinymce/plugins/colorpicker'
-__webpack_require__(44);
+__webpack_require__(48);
 
 /***/ }),
-/* 44 */
+/* 48 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -15376,7 +16278,7 @@ dem('tinymce.plugins.colorpicker.Plugin')();
 
 
 /***/ }),
-/* 45 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "contextmenu" plugin for usage with module loaders
@@ -15385,10 +16287,10 @@ dem('tinymce.plugins.colorpicker.Plugin')();
 //     require('tinymce/plugins/contextmenu')
 //   ES2015:
 //     import 'tinymce/plugins/contextmenu'
-__webpack_require__(46);
+__webpack_require__(50);
 
 /***/ }),
-/* 46 */
+/* 50 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -16343,7 +17245,7 @@ dem('tinymce.plugins.contextmenu.Plugin')();
 
 
 /***/ }),
-/* 47 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "directionality" plugin for usage with module loaders
@@ -16352,10 +17254,10 @@ dem('tinymce.plugins.contextmenu.Plugin')();
 //     require('tinymce/plugins/directionality')
 //   ES2015:
 //     import 'tinymce/plugins/directionality'
-__webpack_require__(48);
+__webpack_require__(52);
 
 /***/ }),
-/* 48 */
+/* 52 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -16568,7 +17470,7 @@ dem('tinymce.plugins.directionality.Plugin')();
 
 
 /***/ }),
-/* 49 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "emoticons" plugin for usage with module loaders
@@ -16577,10 +17479,10 @@ dem('tinymce.plugins.directionality.Plugin')();
 //     require('tinymce/plugins/emoticons')
 //   ES2015:
 //     import 'tinymce/plugins/emoticons'
-__webpack_require__(50);
+__webpack_require__(54);
 
 /***/ }),
-/* 50 */
+/* 54 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -16797,7 +17699,7 @@ dem('tinymce.plugins.emoticons.Plugin')();
 
 
 /***/ }),
-/* 51 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "fullscreen" plugin for usage with module loaders
@@ -16806,10 +17708,10 @@ dem('tinymce.plugins.emoticons.Plugin')();
 //     require('tinymce/plugins/fullscreen')
 //   ES2015:
 //     import 'tinymce/plugins/fullscreen'
-__webpack_require__(52);
+__webpack_require__(56);
 
 /***/ }),
-/* 52 */
+/* 56 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -17114,7 +18016,7 @@ dem('tinymce.plugins.fullscreen.Plugin')();
 
 
 /***/ }),
-/* 53 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "help" plugin for usage with module loaders
@@ -17123,10 +18025,10 @@ dem('tinymce.plugins.fullscreen.Plugin')();
 //     require('tinymce/plugins/help')
 //   ES2015:
 //     import 'tinymce/plugins/help'
-__webpack_require__(54);
+__webpack_require__(58);
 
 /***/ }),
-/* 54 */
+/* 58 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -18495,7 +19397,7 @@ dem('tinymce.plugins.help.Plugin')();
 
 
 /***/ }),
-/* 55 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "hr" plugin for usage with module loaders
@@ -18504,10 +19406,10 @@ dem('tinymce.plugins.help.Plugin')();
 //     require('tinymce/plugins/hr')
 //   ES2015:
 //     import 'tinymce/plugins/hr'
-__webpack_require__(56);
+__webpack_require__(60);
 
 /***/ }),
-/* 56 */
+/* 60 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -18665,7 +19567,7 @@ dem('tinymce.plugins.hr.Plugin')();
 
 
 /***/ }),
-/* 57 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "image" plugin for usage with module loaders
@@ -18674,10 +19576,10 @@ dem('tinymce.plugins.hr.Plugin')();
 //     require('tinymce/plugins/image')
 //   ES2015:
 //     import 'tinymce/plugins/image'
-__webpack_require__(58);
+__webpack_require__(62);
 
 /***/ }),
-/* 58 */
+/* 62 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -19830,7 +20732,7 @@ dem('tinymce.plugins.image.Plugin')();
 
 
 /***/ }),
-/* 59 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "imagetools" plugin for usage with module loaders
@@ -19839,10 +20741,10 @@ dem('tinymce.plugins.image.Plugin')();
 //     require('tinymce/plugins/imagetools')
 //   ES2015:
 //     import 'tinymce/plugins/imagetools'
-__webpack_require__(60);
+__webpack_require__(64);
 
 /***/ }),
-/* 60 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(setImmediate) {(function () {
@@ -23838,7 +24740,7 @@ dem('tinymce.plugins.imagetools.Plugin')();
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).setImmediate))
 
 /***/ }),
-/* 61 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "insertdatetime" plugin for usage with module loaders
@@ -23847,10 +24749,10 @@ dem('tinymce.plugins.imagetools.Plugin')();
 //     require('tinymce/plugins/insertdatetime')
 //   ES2015:
 //     import 'tinymce/plugins/insertdatetime'
-__webpack_require__(62);
+__webpack_require__(66);
 
 /***/ }),
-/* 62 */
+/* 66 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -24119,7 +25021,7 @@ dem('tinymce.plugins.insertdatetime.Plugin')();
 
 
 /***/ }),
-/* 63 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "link" plugin for usage with module loaders
@@ -24128,10 +25030,10 @@ dem('tinymce.plugins.insertdatetime.Plugin')();
 //     require('tinymce/plugins/link')
 //   ES2015:
 //     import 'tinymce/plugins/link'
-__webpack_require__(64);
+__webpack_require__(68);
 
 /***/ }),
-/* 64 */
+/* 68 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -25311,7 +26213,7 @@ dem('tinymce.plugins.link.Plugin')();
 
 
 /***/ }),
-/* 65 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "lists" plugin for usage with module loaders
@@ -25320,10 +26222,10 @@ dem('tinymce.plugins.link.Plugin')();
 //     require('tinymce/plugins/lists')
 //   ES2015:
 //     import 'tinymce/plugins/lists'
-__webpack_require__(66);
+__webpack_require__(70);
 
 /***/ }),
-/* 66 */
+/* 70 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -27121,7 +28023,7 @@ dem('tinymce.plugins.lists.Plugin')();
 
 
 /***/ }),
-/* 67 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "media" plugin for usage with module loaders
@@ -27130,10 +28032,10 @@ dem('tinymce.plugins.lists.Plugin')();
 //     require('tinymce/plugins/media')
 //   ES2015:
 //     import 'tinymce/plugins/media'
-__webpack_require__(68);
+__webpack_require__(72);
 
 /***/ }),
-/* 68 */
+/* 72 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -28927,7 +29829,7 @@ dem('tinymce.plugins.media.Plugin')();
 
 
 /***/ }),
-/* 69 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "nonbreaking" plugin for usage with module loaders
@@ -28936,10 +29838,10 @@ dem('tinymce.plugins.media.Plugin')();
 //     require('tinymce/plugins/nonbreaking')
 //   ES2015:
 //     import 'tinymce/plugins/nonbreaking'
-__webpack_require__(70);
+__webpack_require__(74);
 
 /***/ }),
-/* 70 */
+/* 74 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -29127,7 +30029,7 @@ dem('tinymce.plugins.nonbreaking.Plugin')();
 
 
 /***/ }),
-/* 71 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "pagebreak" plugin for usage with module loaders
@@ -29136,10 +30038,10 @@ dem('tinymce.plugins.nonbreaking.Plugin')();
 //     require('tinymce/plugins/pagebreak')
 //   ES2015:
 //     import 'tinymce/plugins/pagebreak'
-__webpack_require__(72);
+__webpack_require__(76);
 
 /***/ }),
-/* 72 */
+/* 76 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -29376,7 +30278,7 @@ dem('tinymce.plugins.pagebreak.Plugin')();
 
 
 /***/ }),
-/* 73 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "paste" plugin for usage with module loaders
@@ -29385,10 +30287,10 @@ dem('tinymce.plugins.pagebreak.Plugin')();
 //     require('tinymce/plugins/paste')
 //   ES2015:
 //     import 'tinymce/plugins/paste'
-__webpack_require__(74);
+__webpack_require__(78);
 
 /***/ }),
-/* 74 */
+/* 78 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -31882,7 +32784,7 @@ dem('tinymce.plugins.paste.Plugin')();
 
 
 /***/ }),
-/* 75 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "preview" plugin for usage with module loaders
@@ -31891,10 +32793,10 @@ dem('tinymce.plugins.paste.Plugin')();
 //     require('tinymce/plugins/preview')
 //   ES2015:
 //     import 'tinymce/plugins/preview'
-__webpack_require__(76);
+__webpack_require__(80);
 
 /***/ }),
-/* 76 */
+/* 80 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -32165,7 +33067,7 @@ dem('tinymce.plugins.preview.Plugin')();
 
 
 /***/ }),
-/* 77 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "print" plugin for usage with module loaders
@@ -32174,10 +33076,10 @@ dem('tinymce.plugins.preview.Plugin')();
 //     require('tinymce/plugins/print')
 //   ES2015:
 //     import 'tinymce/plugins/print'
-__webpack_require__(78);
+__webpack_require__(82);
 
 /***/ }),
-/* 78 */
+/* 82 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -32337,7 +33239,7 @@ dem('tinymce.plugins.print.Plugin')();
 
 
 /***/ }),
-/* 79 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "save" plugin for usage with module loaders
@@ -32346,10 +33248,10 @@ dem('tinymce.plugins.print.Plugin')();
 //     require('tinymce/plugins/save')
 //   ES2015:
 //     import 'tinymce/plugins/save'
-__webpack_require__(80);
+__webpack_require__(84);
 
 /***/ }),
-/* 80 */
+/* 84 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -32638,7 +33540,7 @@ dem('tinymce.plugins.save.Plugin')();
 
 
 /***/ }),
-/* 81 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "searchreplace" plugin for usage with module loaders
@@ -32647,10 +33549,10 @@ dem('tinymce.plugins.save.Plugin')();
 //     require('tinymce/plugins/searchreplace')
 //   ES2015:
 //     import 'tinymce/plugins/searchreplace'
-__webpack_require__(82);
+__webpack_require__(86);
 
 /***/ }),
-/* 82 */
+/* 86 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -33442,7 +34344,7 @@ dem('tinymce.plugins.searchreplace.Plugin')();
 
 
 /***/ }),
-/* 83 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "table" plugin for usage with module loaders
@@ -33451,10 +34353,10 @@ dem('tinymce.plugins.searchreplace.Plugin')();
 //     require('tinymce/plugins/table')
 //   ES2015:
 //     import 'tinymce/plugins/table'
-__webpack_require__(84);
+__webpack_require__(88);
 
 /***/ }),
-/* 84 */
+/* 88 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -38245,7 +39147,7 @@ dem('tinymce.plugins.table.Plugin')();
 
 
 /***/ }),
-/* 85 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "template" plugin for usage with module loaders
@@ -38254,10 +39156,10 @@ dem('tinymce.plugins.table.Plugin')();
 //     require('tinymce/plugins/template')
 //   ES2015:
 //     import 'tinymce/plugins/template'
-__webpack_require__(86);
+__webpack_require__(90);
 
 /***/ }),
-/* 86 */
+/* 90 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -38897,7 +39799,7 @@ dem('tinymce.plugins.template.Plugin')();
 
 
 /***/ }),
-/* 87 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "textcolor" plugin for usage with module loaders
@@ -38906,10 +39808,10 @@ dem('tinymce.plugins.template.Plugin')();
 //     require('tinymce/plugins/textcolor')
 //   ES2015:
 //     import 'tinymce/plugins/textcolor'
-__webpack_require__(88);
+__webpack_require__(92);
 
 /***/ }),
-/* 88 */
+/* 92 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -39398,7 +40300,7 @@ dem('tinymce.plugins.textcolor.Plugin')();
 
 
 /***/ }),
-/* 89 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "textpattern" plugin for usage with module loaders
@@ -39407,10 +40309,10 @@ dem('tinymce.plugins.textcolor.Plugin')();
 //     require('tinymce/plugins/textpattern')
 //   ES2015:
 //     import 'tinymce/plugins/textpattern'
-__webpack_require__(90);
+__webpack_require__(94);
 
 /***/ }),
-/* 90 */
+/* 94 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -39993,7 +40895,7 @@ dem('tinymce.plugins.textpattern.Plugin')();
 
 
 /***/ }),
-/* 91 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "toc" plugin for usage with module loaders
@@ -40002,10 +40904,10 @@ dem('tinymce.plugins.textpattern.Plugin')();
 //     require('tinymce/plugins/toc')
 //   ES2015:
 //     import 'tinymce/plugins/toc'
-__webpack_require__(92);
+__webpack_require__(96);
 
 /***/ }),
-/* 92 */
+/* 96 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -40422,7 +41324,7 @@ dem('tinymce.plugins.toc.Plugin')();
 
 
 /***/ }),
-/* 93 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "visualblocks" plugin for usage with module loaders
@@ -40431,10 +41333,10 @@ dem('tinymce.plugins.toc.Plugin')();
 //     require('tinymce/plugins/visualblocks')
 //   ES2015:
 //     import 'tinymce/plugins/visualblocks'
-__webpack_require__(94);
+__webpack_require__(98);
 
 /***/ }),
-/* 94 */
+/* 98 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -40648,7 +41550,7 @@ dem('tinymce.plugins.visualblocks.Plugin')();
 
 
 /***/ }),
-/* 95 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Exports the "visualchars" plugin for usage with module loaders
@@ -40657,10 +41559,10 @@ dem('tinymce.plugins.visualblocks.Plugin')();
 //     require('tinymce/plugins/visualchars')
 //   ES2015:
 //     import 'tinymce/plugins/visualchars'
-__webpack_require__(96);
+__webpack_require__(100);
 
 /***/ }),
-/* 96 */
+/* 100 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -41771,7 +42673,7 @@ dem('tinymce.plugins.visualchars.Plugin')();
 
 
 /***/ }),
-/* 97 */
+/* 101 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -42409,25 +43311,25 @@ dem('tinymce.plugins.wordcount.Plugin')();
 
 
 /***/ }),
-/* 98 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./lightgray/content.inline.min.css": 11,
-	"./lightgray/content.min.css": 12,
-	"./lightgray/fonts/tinymce-small.eot": 13,
-	"./lightgray/fonts/tinymce-small.svg": 14,
-	"./lightgray/fonts/tinymce-small.ttf": 15,
-	"./lightgray/fonts/tinymce-small.woff": 16,
-	"./lightgray/fonts/tinymce.eot": 17,
-	"./lightgray/fonts/tinymce.svg": 18,
-	"./lightgray/fonts/tinymce.ttf": 19,
-	"./lightgray/fonts/tinymce.woff": 20,
-	"./lightgray/img/anchor.gif": 21,
-	"./lightgray/img/loader.gif": 22,
-	"./lightgray/img/object.gif": 23,
-	"./lightgray/img/trans.gif": 24,
-	"./lightgray/skin.min.css": 25
+	"./lightgray/content.inline.min.css": 15,
+	"./lightgray/content.min.css": 16,
+	"./lightgray/fonts/tinymce-small.eot": 17,
+	"./lightgray/fonts/tinymce-small.svg": 18,
+	"./lightgray/fonts/tinymce-small.ttf": 19,
+	"./lightgray/fonts/tinymce-small.woff": 20,
+	"./lightgray/fonts/tinymce.eot": 21,
+	"./lightgray/fonts/tinymce.svg": 22,
+	"./lightgray/fonts/tinymce.ttf": 23,
+	"./lightgray/fonts/tinymce.woff": 24,
+	"./lightgray/img/anchor.gif": 25,
+	"./lightgray/img/loader.gif": 26,
+	"./lightgray/img/object.gif": 27,
+	"./lightgray/img/trans.gif": 28,
+	"./lightgray/skin.min.css": 29
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -42443,10 +43345,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 98;
+webpackContext.id = 102;
 
 /***/ }),
-/* 99 */
+/* 103 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -44133,7 +45035,7 @@ dem('tinymce.themes.modern.Theme')();
 
 
 /***/ }),
-/* 100 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(setImmediate) {// 4.6.6 (2017-08-30)
@@ -101266,769 +102168,6 @@ dem('tinymce.core.api.Main')();
 })();
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).setImmediate))
-
-/***/ }),
-/* 101 */
-/***/ (function(module, exports) {
-
-/*!
-Waypoints - 4.0.1
-Copyright © 2011-2016 Caleb Troughton
-Licensed under the MIT license.
-https://github.com/imakewebthings/waypoints/blob/master/licenses.txt
-*/
-(function() {
-  'use strict'
-
-  var keyCounter = 0
-  var allWaypoints = {}
-
-  /* http://imakewebthings.com/waypoints/api/waypoint */
-  function Waypoint(options) {
-    if (!options) {
-      throw new Error('No options passed to Waypoint constructor')
-    }
-    if (!options.element) {
-      throw new Error('No element option passed to Waypoint constructor')
-    }
-    if (!options.handler) {
-      throw new Error('No handler option passed to Waypoint constructor')
-    }
-
-    this.key = 'waypoint-' + keyCounter
-    this.options = Waypoint.Adapter.extend({}, Waypoint.defaults, options)
-    this.element = this.options.element
-    this.adapter = new Waypoint.Adapter(this.element)
-    this.callback = options.handler
-    this.axis = this.options.horizontal ? 'horizontal' : 'vertical'
-    this.enabled = this.options.enabled
-    this.triggerPoint = null
-    this.group = Waypoint.Group.findOrCreate({
-      name: this.options.group,
-      axis: this.axis
-    })
-    this.context = Waypoint.Context.findOrCreateByElement(this.options.context)
-
-    if (Waypoint.offsetAliases[this.options.offset]) {
-      this.options.offset = Waypoint.offsetAliases[this.options.offset]
-    }
-    this.group.add(this)
-    this.context.add(this)
-    allWaypoints[this.key] = this
-    keyCounter += 1
-  }
-
-  /* Private */
-  Waypoint.prototype.queueTrigger = function(direction) {
-    this.group.queueTrigger(this, direction)
-  }
-
-  /* Private */
-  Waypoint.prototype.trigger = function(args) {
-    if (!this.enabled) {
-      return
-    }
-    if (this.callback) {
-      this.callback.apply(this, args)
-    }
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/destroy */
-  Waypoint.prototype.destroy = function() {
-    this.context.remove(this)
-    this.group.remove(this)
-    delete allWaypoints[this.key]
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/disable */
-  Waypoint.prototype.disable = function() {
-    this.enabled = false
-    return this
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/enable */
-  Waypoint.prototype.enable = function() {
-    this.context.refresh()
-    this.enabled = true
-    return this
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/next */
-  Waypoint.prototype.next = function() {
-    return this.group.next(this)
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/previous */
-  Waypoint.prototype.previous = function() {
-    return this.group.previous(this)
-  }
-
-  /* Private */
-  Waypoint.invokeAll = function(method) {
-    var allWaypointsArray = []
-    for (var waypointKey in allWaypoints) {
-      allWaypointsArray.push(allWaypoints[waypointKey])
-    }
-    for (var i = 0, end = allWaypointsArray.length; i < end; i++) {
-      allWaypointsArray[i][method]()
-    }
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/destroy-all */
-  Waypoint.destroyAll = function() {
-    Waypoint.invokeAll('destroy')
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/disable-all */
-  Waypoint.disableAll = function() {
-    Waypoint.invokeAll('disable')
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/enable-all */
-  Waypoint.enableAll = function() {
-    Waypoint.Context.refreshAll()
-    for (var waypointKey in allWaypoints) {
-      allWaypoints[waypointKey].enabled = true
-    }
-    return this
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/refresh-all */
-  Waypoint.refreshAll = function() {
-    Waypoint.Context.refreshAll()
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/viewport-height */
-  Waypoint.viewportHeight = function() {
-    return window.innerHeight || document.documentElement.clientHeight
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/viewport-width */
-  Waypoint.viewportWidth = function() {
-    return document.documentElement.clientWidth
-  }
-
-  Waypoint.adapters = []
-
-  Waypoint.defaults = {
-    context: window,
-    continuous: true,
-    enabled: true,
-    group: 'default',
-    horizontal: false,
-    offset: 0
-  }
-
-  Waypoint.offsetAliases = {
-    'bottom-in-view': function() {
-      return this.context.innerHeight() - this.adapter.outerHeight()
-    },
-    'right-in-view': function() {
-      return this.context.innerWidth() - this.adapter.outerWidth()
-    }
-  }
-
-  window.Waypoint = Waypoint
-}())
-;(function() {
-  'use strict'
-
-  function requestAnimationFrameShim(callback) {
-    window.setTimeout(callback, 1000 / 60)
-  }
-
-  var keyCounter = 0
-  var contexts = {}
-  var Waypoint = window.Waypoint
-  var oldWindowLoad = window.onload
-
-  /* http://imakewebthings.com/waypoints/api/context */
-  function Context(element) {
-    this.element = element
-    this.Adapter = Waypoint.Adapter
-    this.adapter = new this.Adapter(element)
-    this.key = 'waypoint-context-' + keyCounter
-    this.didScroll = false
-    this.didResize = false
-    this.oldScroll = {
-      x: this.adapter.scrollLeft(),
-      y: this.adapter.scrollTop()
-    }
-    this.waypoints = {
-      vertical: {},
-      horizontal: {}
-    }
-
-    element.waypointContextKey = this.key
-    contexts[element.waypointContextKey] = this
-    keyCounter += 1
-    if (!Waypoint.windowContext) {
-      Waypoint.windowContext = true
-      Waypoint.windowContext = new Context(window)
-    }
-
-    this.createThrottledScrollHandler()
-    this.createThrottledResizeHandler()
-  }
-
-  /* Private */
-  Context.prototype.add = function(waypoint) {
-    var axis = waypoint.options.horizontal ? 'horizontal' : 'vertical'
-    this.waypoints[axis][waypoint.key] = waypoint
-    this.refresh()
-  }
-
-  /* Private */
-  Context.prototype.checkEmpty = function() {
-    var horizontalEmpty = this.Adapter.isEmptyObject(this.waypoints.horizontal)
-    var verticalEmpty = this.Adapter.isEmptyObject(this.waypoints.vertical)
-    var isWindow = this.element == this.element.window
-    if (horizontalEmpty && verticalEmpty && !isWindow) {
-      this.adapter.off('.waypoints')
-      delete contexts[this.key]
-    }
-  }
-
-  /* Private */
-  Context.prototype.createThrottledResizeHandler = function() {
-    var self = this
-
-    function resizeHandler() {
-      self.handleResize()
-      self.didResize = false
-    }
-
-    this.adapter.on('resize.waypoints', function() {
-      if (!self.didResize) {
-        self.didResize = true
-        Waypoint.requestAnimationFrame(resizeHandler)
-      }
-    })
-  }
-
-  /* Private */
-  Context.prototype.createThrottledScrollHandler = function() {
-    var self = this
-    function scrollHandler() {
-      self.handleScroll()
-      self.didScroll = false
-    }
-
-    this.adapter.on('scroll.waypoints', function() {
-      if (!self.didScroll || Waypoint.isTouch) {
-        self.didScroll = true
-        Waypoint.requestAnimationFrame(scrollHandler)
-      }
-    })
-  }
-
-  /* Private */
-  Context.prototype.handleResize = function() {
-    Waypoint.Context.refreshAll()
-  }
-
-  /* Private */
-  Context.prototype.handleScroll = function() {
-    var triggeredGroups = {}
-    var axes = {
-      horizontal: {
-        newScroll: this.adapter.scrollLeft(),
-        oldScroll: this.oldScroll.x,
-        forward: 'right',
-        backward: 'left'
-      },
-      vertical: {
-        newScroll: this.adapter.scrollTop(),
-        oldScroll: this.oldScroll.y,
-        forward: 'down',
-        backward: 'up'
-      }
-    }
-
-    for (var axisKey in axes) {
-      var axis = axes[axisKey]
-      var isForward = axis.newScroll > axis.oldScroll
-      var direction = isForward ? axis.forward : axis.backward
-
-      for (var waypointKey in this.waypoints[axisKey]) {
-        var waypoint = this.waypoints[axisKey][waypointKey]
-        if (waypoint.triggerPoint === null) {
-          continue
-        }
-        var wasBeforeTriggerPoint = axis.oldScroll < waypoint.triggerPoint
-        var nowAfterTriggerPoint = axis.newScroll >= waypoint.triggerPoint
-        var crossedForward = wasBeforeTriggerPoint && nowAfterTriggerPoint
-        var crossedBackward = !wasBeforeTriggerPoint && !nowAfterTriggerPoint
-        if (crossedForward || crossedBackward) {
-          waypoint.queueTrigger(direction)
-          triggeredGroups[waypoint.group.id] = waypoint.group
-        }
-      }
-    }
-
-    for (var groupKey in triggeredGroups) {
-      triggeredGroups[groupKey].flushTriggers()
-    }
-
-    this.oldScroll = {
-      x: axes.horizontal.newScroll,
-      y: axes.vertical.newScroll
-    }
-  }
-
-  /* Private */
-  Context.prototype.innerHeight = function() {
-    /*eslint-disable eqeqeq */
-    if (this.element == this.element.window) {
-      return Waypoint.viewportHeight()
-    }
-    /*eslint-enable eqeqeq */
-    return this.adapter.innerHeight()
-  }
-
-  /* Private */
-  Context.prototype.remove = function(waypoint) {
-    delete this.waypoints[waypoint.axis][waypoint.key]
-    this.checkEmpty()
-  }
-
-  /* Private */
-  Context.prototype.innerWidth = function() {
-    /*eslint-disable eqeqeq */
-    if (this.element == this.element.window) {
-      return Waypoint.viewportWidth()
-    }
-    /*eslint-enable eqeqeq */
-    return this.adapter.innerWidth()
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/context-destroy */
-  Context.prototype.destroy = function() {
-    var allWaypoints = []
-    for (var axis in this.waypoints) {
-      for (var waypointKey in this.waypoints[axis]) {
-        allWaypoints.push(this.waypoints[axis][waypointKey])
-      }
-    }
-    for (var i = 0, end = allWaypoints.length; i < end; i++) {
-      allWaypoints[i].destroy()
-    }
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/context-refresh */
-  Context.prototype.refresh = function() {
-    /*eslint-disable eqeqeq */
-    var isWindow = this.element == this.element.window
-    /*eslint-enable eqeqeq */
-    var contextOffset = isWindow ? undefined : this.adapter.offset()
-    var triggeredGroups = {}
-    var axes
-
-    this.handleScroll()
-    axes = {
-      horizontal: {
-        contextOffset: isWindow ? 0 : contextOffset.left,
-        contextScroll: isWindow ? 0 : this.oldScroll.x,
-        contextDimension: this.innerWidth(),
-        oldScroll: this.oldScroll.x,
-        forward: 'right',
-        backward: 'left',
-        offsetProp: 'left'
-      },
-      vertical: {
-        contextOffset: isWindow ? 0 : contextOffset.top,
-        contextScroll: isWindow ? 0 : this.oldScroll.y,
-        contextDimension: this.innerHeight(),
-        oldScroll: this.oldScroll.y,
-        forward: 'down',
-        backward: 'up',
-        offsetProp: 'top'
-      }
-    }
-
-    for (var axisKey in axes) {
-      var axis = axes[axisKey]
-      for (var waypointKey in this.waypoints[axisKey]) {
-        var waypoint = this.waypoints[axisKey][waypointKey]
-        var adjustment = waypoint.options.offset
-        var oldTriggerPoint = waypoint.triggerPoint
-        var elementOffset = 0
-        var freshWaypoint = oldTriggerPoint == null
-        var contextModifier, wasBeforeScroll, nowAfterScroll
-        var triggeredBackward, triggeredForward
-
-        if (waypoint.element !== waypoint.element.window) {
-          elementOffset = waypoint.adapter.offset()[axis.offsetProp]
-        }
-
-        if (typeof adjustment === 'function') {
-          adjustment = adjustment.apply(waypoint)
-        }
-        else if (typeof adjustment === 'string') {
-          adjustment = parseFloat(adjustment)
-          if (waypoint.options.offset.indexOf('%') > - 1) {
-            adjustment = Math.ceil(axis.contextDimension * adjustment / 100)
-          }
-        }
-
-        contextModifier = axis.contextScroll - axis.contextOffset
-        waypoint.triggerPoint = Math.floor(elementOffset + contextModifier - adjustment)
-        wasBeforeScroll = oldTriggerPoint < axis.oldScroll
-        nowAfterScroll = waypoint.triggerPoint >= axis.oldScroll
-        triggeredBackward = wasBeforeScroll && nowAfterScroll
-        triggeredForward = !wasBeforeScroll && !nowAfterScroll
-
-        if (!freshWaypoint && triggeredBackward) {
-          waypoint.queueTrigger(axis.backward)
-          triggeredGroups[waypoint.group.id] = waypoint.group
-        }
-        else if (!freshWaypoint && triggeredForward) {
-          waypoint.queueTrigger(axis.forward)
-          triggeredGroups[waypoint.group.id] = waypoint.group
-        }
-        else if (freshWaypoint && axis.oldScroll >= waypoint.triggerPoint) {
-          waypoint.queueTrigger(axis.forward)
-          triggeredGroups[waypoint.group.id] = waypoint.group
-        }
-      }
-    }
-
-    Waypoint.requestAnimationFrame(function() {
-      for (var groupKey in triggeredGroups) {
-        triggeredGroups[groupKey].flushTriggers()
-      }
-    })
-
-    return this
-  }
-
-  /* Private */
-  Context.findOrCreateByElement = function(element) {
-    return Context.findByElement(element) || new Context(element)
-  }
-
-  /* Private */
-  Context.refreshAll = function() {
-    for (var contextId in contexts) {
-      contexts[contextId].refresh()
-    }
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/context-find-by-element */
-  Context.findByElement = function(element) {
-    return contexts[element.waypointContextKey]
-  }
-
-  window.onload = function() {
-    if (oldWindowLoad) {
-      oldWindowLoad()
-    }
-    Context.refreshAll()
-  }
-
-
-  Waypoint.requestAnimationFrame = function(callback) {
-    var requestFn = window.requestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      requestAnimationFrameShim
-    requestFn.call(window, callback)
-  }
-  Waypoint.Context = Context
-}())
-;(function() {
-  'use strict'
-
-  function byTriggerPoint(a, b) {
-    return a.triggerPoint - b.triggerPoint
-  }
-
-  function byReverseTriggerPoint(a, b) {
-    return b.triggerPoint - a.triggerPoint
-  }
-
-  var groups = {
-    vertical: {},
-    horizontal: {}
-  }
-  var Waypoint = window.Waypoint
-
-  /* http://imakewebthings.com/waypoints/api/group */
-  function Group(options) {
-    this.name = options.name
-    this.axis = options.axis
-    this.id = this.name + '-' + this.axis
-    this.waypoints = []
-    this.clearTriggerQueues()
-    groups[this.axis][this.name] = this
-  }
-
-  /* Private */
-  Group.prototype.add = function(waypoint) {
-    this.waypoints.push(waypoint)
-  }
-
-  /* Private */
-  Group.prototype.clearTriggerQueues = function() {
-    this.triggerQueues = {
-      up: [],
-      down: [],
-      left: [],
-      right: []
-    }
-  }
-
-  /* Private */
-  Group.prototype.flushTriggers = function() {
-    for (var direction in this.triggerQueues) {
-      var waypoints = this.triggerQueues[direction]
-      var reverse = direction === 'up' || direction === 'left'
-      waypoints.sort(reverse ? byReverseTriggerPoint : byTriggerPoint)
-      for (var i = 0, end = waypoints.length; i < end; i += 1) {
-        var waypoint = waypoints[i]
-        if (waypoint.options.continuous || i === waypoints.length - 1) {
-          waypoint.trigger([direction])
-        }
-      }
-    }
-    this.clearTriggerQueues()
-  }
-
-  /* Private */
-  Group.prototype.next = function(waypoint) {
-    this.waypoints.sort(byTriggerPoint)
-    var index = Waypoint.Adapter.inArray(waypoint, this.waypoints)
-    var isLast = index === this.waypoints.length - 1
-    return isLast ? null : this.waypoints[index + 1]
-  }
-
-  /* Private */
-  Group.prototype.previous = function(waypoint) {
-    this.waypoints.sort(byTriggerPoint)
-    var index = Waypoint.Adapter.inArray(waypoint, this.waypoints)
-    return index ? this.waypoints[index - 1] : null
-  }
-
-  /* Private */
-  Group.prototype.queueTrigger = function(waypoint, direction) {
-    this.triggerQueues[direction].push(waypoint)
-  }
-
-  /* Private */
-  Group.prototype.remove = function(waypoint) {
-    var index = Waypoint.Adapter.inArray(waypoint, this.waypoints)
-    if (index > -1) {
-      this.waypoints.splice(index, 1)
-    }
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/first */
-  Group.prototype.first = function() {
-    return this.waypoints[0]
-  }
-
-  /* Public */
-  /* http://imakewebthings.com/waypoints/api/last */
-  Group.prototype.last = function() {
-    return this.waypoints[this.waypoints.length - 1]
-  }
-
-  /* Private */
-  Group.findOrCreate = function(options) {
-    return groups[options.axis][options.name] || new Group(options)
-  }
-
-  Waypoint.Group = Group
-}())
-;(function() {
-  'use strict'
-
-  var Waypoint = window.Waypoint
-
-  function isWindow(element) {
-    return element === element.window
-  }
-
-  function getWindow(element) {
-    if (isWindow(element)) {
-      return element
-    }
-    return element.defaultView
-  }
-
-  function NoFrameworkAdapter(element) {
-    this.element = element
-    this.handlers = {}
-  }
-
-  NoFrameworkAdapter.prototype.innerHeight = function() {
-    var isWin = isWindow(this.element)
-    return isWin ? this.element.innerHeight : this.element.clientHeight
-  }
-
-  NoFrameworkAdapter.prototype.innerWidth = function() {
-    var isWin = isWindow(this.element)
-    return isWin ? this.element.innerWidth : this.element.clientWidth
-  }
-
-  NoFrameworkAdapter.prototype.off = function(event, handler) {
-    function removeListeners(element, listeners, handler) {
-      for (var i = 0, end = listeners.length - 1; i < end; i++) {
-        var listener = listeners[i]
-        if (!handler || handler === listener) {
-          element.removeEventListener(listener)
-        }
-      }
-    }
-
-    var eventParts = event.split('.')
-    var eventType = eventParts[0]
-    var namespace = eventParts[1]
-    var element = this.element
-
-    if (namespace && this.handlers[namespace] && eventType) {
-      removeListeners(element, this.handlers[namespace][eventType], handler)
-      this.handlers[namespace][eventType] = []
-    }
-    else if (eventType) {
-      for (var ns in this.handlers) {
-        removeListeners(element, this.handlers[ns][eventType] || [], handler)
-        this.handlers[ns][eventType] = []
-      }
-    }
-    else if (namespace && this.handlers[namespace]) {
-      for (var type in this.handlers[namespace]) {
-        removeListeners(element, this.handlers[namespace][type], handler)
-      }
-      this.handlers[namespace] = {}
-    }
-  }
-
-  /* Adapted from jQuery 1.x offset() */
-  NoFrameworkAdapter.prototype.offset = function() {
-    if (!this.element.ownerDocument) {
-      return null
-    }
-
-    var documentElement = this.element.ownerDocument.documentElement
-    var win = getWindow(this.element.ownerDocument)
-    var rect = {
-      top: 0,
-      left: 0
-    }
-
-    if (this.element.getBoundingClientRect) {
-      rect = this.element.getBoundingClientRect()
-    }
-
-    return {
-      top: rect.top + win.pageYOffset - documentElement.clientTop,
-      left: rect.left + win.pageXOffset - documentElement.clientLeft
-    }
-  }
-
-  NoFrameworkAdapter.prototype.on = function(event, handler) {
-    var eventParts = event.split('.')
-    var eventType = eventParts[0]
-    var namespace = eventParts[1] || '__default'
-    var nsHandlers = this.handlers[namespace] = this.handlers[namespace] || {}
-    var nsTypeList = nsHandlers[eventType] = nsHandlers[eventType] || []
-
-    nsTypeList.push(handler)
-    this.element.addEventListener(eventType, handler)
-  }
-
-  NoFrameworkAdapter.prototype.outerHeight = function(includeMargin) {
-    var height = this.innerHeight()
-    var computedStyle
-
-    if (includeMargin && !isWindow(this.element)) {
-      computedStyle = window.getComputedStyle(this.element)
-      height += parseInt(computedStyle.marginTop, 10)
-      height += parseInt(computedStyle.marginBottom, 10)
-    }
-
-    return height
-  }
-
-  NoFrameworkAdapter.prototype.outerWidth = function(includeMargin) {
-    var width = this.innerWidth()
-    var computedStyle
-
-    if (includeMargin && !isWindow(this.element)) {
-      computedStyle = window.getComputedStyle(this.element)
-      width += parseInt(computedStyle.marginLeft, 10)
-      width += parseInt(computedStyle.marginRight, 10)
-    }
-
-    return width
-  }
-
-  NoFrameworkAdapter.prototype.scrollLeft = function() {
-    var win = getWindow(this.element)
-    return win ? win.pageXOffset : this.element.scrollLeft
-  }
-
-  NoFrameworkAdapter.prototype.scrollTop = function() {
-    var win = getWindow(this.element)
-    return win ? win.pageYOffset : this.element.scrollTop
-  }
-
-  NoFrameworkAdapter.extend = function() {
-    var args = Array.prototype.slice.call(arguments)
-
-    function merge(target, obj) {
-      if (typeof target === 'object' && typeof obj === 'object') {
-        for (var key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            target[key] = obj[key]
-          }
-        }
-      }
-
-      return target
-    }
-
-    for (var i = 1, end = args.length; i < end; i++) {
-      merge(args[0], args[i])
-    }
-    return args[0]
-  }
-
-  NoFrameworkAdapter.inArray = function(element, array, i) {
-    return array == null ? -1 : array.indexOf(element, i)
-  }
-
-  NoFrameworkAdapter.isEmptyObject = function(obj) {
-    /* eslint no-unused-vars: 0 */
-    for (var name in obj) {
-      return false
-    }
-    return true
-  }
-
-  Waypoint.adapters.push({
-    name: 'noframework',
-    Adapter: NoFrameworkAdapter
-  })
-  Waypoint.Adapter = NoFrameworkAdapter
-}())
-;
 
 /***/ })
 /******/ ]);

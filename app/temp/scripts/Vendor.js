@@ -63,30 +63,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 10:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lazysizes__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lazysizes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lazysizes__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_picturefill__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_picturefill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_picturefill__);
-throw new Error("Cannot find module \"../../temp/scripts/modernizr\"");
-
-
-
-
-
-
-/***/ }),
-
-/***/ 7:
+/***/ 11:
 /***/ (function(module, exports) {
 
 (function(window, factory) {
@@ -783,7 +765,7 @@ throw new Error("Cannot find module \"../../temp/scripts/modernizr\"");
 
 /***/ }),
 
-/***/ 8:
+/***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*! picturefill - v3.0.2 - 2016-02-12
@@ -2331,6 +2313,23 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*! picturefill - v3.0.2 - 2016-02-12
 	}
 
 } )( window, document );
+
+
+/***/ }),
+
+/***/ 14:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lazysizes__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lazysizes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lazysizes__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_picturefill__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_picturefill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_picturefill__);
+
+
+
+//import "../../temp/scripts/modernizr";
 
 
 /***/ })

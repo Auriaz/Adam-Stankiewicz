@@ -1,0 +1,9 @@
+.guide-panel {
+	grid-area: panel;
+	background-color: $mainDarkBlue;
+	padding-top: 20px;
+	&__list {
+		width: 150px;
+		height: 30px;
+	}
+}

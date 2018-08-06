@@ -14,5 +14,12 @@
 	@mixin atExtraLarge {
 		padding-left: 200px;
 	}
-
+	&__login-text {
+		width: 500px;
+		height: auto;
+		margin-top: 5px;
+		text-align: center;
+		margin-right: auto;
+		margin-left: auto;
+	}
 }

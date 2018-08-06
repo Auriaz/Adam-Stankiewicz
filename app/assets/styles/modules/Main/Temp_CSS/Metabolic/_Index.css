@@ -1,24 +1,3 @@
-.content--metabolic {
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: 70px 250px 250px;
-	grid-template-areas: 
-		"header header header"
-		"postcard_01 postcard_02 postcard_03"
-		"postcard_04 postcard_05 postcard_06";
-		
-		
-	grid-column-gap: 20px;
-	grid-row-gap: 70px;
-
-	padding: 20px;
-	padding-bottom: 70px;
-	
-	&__title {
-	grid-area: header;
-	text-align: center;
-	}	
-	
-}
 
 .postcard--metabolic__01 {
 	grid-area: postcard_01;	

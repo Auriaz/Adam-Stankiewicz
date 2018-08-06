@@ -1,11 +1,11 @@
- <?php Session::init(); ?>
+<?php Session::init(); ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
  <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700' rel='stylesheet' type='text/css'>
-  <title>Szkielet strony</title>
+  <title><?=(isset($this->title)) ? $this->title : 'MVC'?></title>
   <meta name="keywords" content="">
   <meta name="description" content="">
 
@@ -18,7 +18,7 @@
 <!-- endbuild -->
 
  <!-- build:jsV assets/scripts/Vendor.js -->
- <script src="<?php echo URL;?>scripts/Vendor.js"></script>
+ <script src="<?php echo URL;?>temp/scripts/Vendor.js"></script>
  <!-- endbuild -->
 
   <!-- build:jsV assets/scripts/App.js -->
@@ -29,30 +29,23 @@
 </head>
 <body>
 
- <div class="container">
- 	
-
-<header>
-	<div class="header-side">
-
+<div class="container">
+    <header class="header-side">
 		<!-- ##### NAWIGACJA ##### --> 
-		<nav>
-			<div id="navigation"  class="nav">
+		<div class="header-side__menu-icon">
+			<div class="header-side__menu-icon__middle"></div>
+		</div>
 
-			     <ol class="navi">  
+		<div class="header-side__menu-content">
+			<nav class="primery-nav">
+				<ol class="primery-nav__ordered-list">  
+					
 
-			        <li>
-			        	<a href="<?php echo URL;?>Index"> KrainaMocy</a>
-					</li>
-
-		     	    <li>
-		     	    	<a href="<?php echo URL;?>Index"> Home</a>
-					</li>
 					<li>
 						<a href="<?php echo URL;?>Metabolic">Metabolic</a>
 
 					    <ul> 
-						    <li> <a href="crossfit.php">CrossFit</a></li>
+						    <li> <a href="#">Ergometr</a></li>
 
 						    <li> <a href="#">Bieganie</a></li>
 
@@ -70,8 +63,11 @@
 						     <li><a href="Strength/Powerlifting">Powerlifting</a></li>
 						</ul>
 
-					</li>				 
-		          
+					</li>
+					<li class="primery-nav__ordered-list__sybol">
+			        	<a href="<?php echo URL;?>Index"> PoTrenujmy</a>
+					</li>
+
 				    <li>
 					 	<a href="<?php echo URL;?>Mobility">Mobility</a>
 		                      
@@ -97,18 +93,9 @@
 
 					</li>
 
-					<li> 
-
-					 	<a href="<?php echo URL;?>AboutMe">About Me</a>
-
-					 	<ul>
-					 		<li><a href="<?php echo URL;?>Help"> Help</a></li>
-					    </ul>
-
-					</li>
-
-					<li>
-						<div class="social-icons">
+					
+					<li class="primery-nav__ordered-list__social-icons">
+						<div class="social-icons social-icons--header-side">
 			             
 			           		<a href="https://youtube.com" target="_blank" class="social-icons__icon">
 			           			<span class="icon icon--youtube icon--header">
@@ -137,7 +124,7 @@
 			   			</div>
 
 					   <?php if(Session::get('loggedIn') == true):?>
-				         <a href="#">Panel</a>
+				         <a href="<?php echo URL;?>Dashboard" >Panel</a>
 				         
 					   <ul>
 					   	 	<li>
@@ -146,6 +133,9 @@
 
 					  		<li>
 					      		<a href="<?php echo URL;?>AddWork"> Add a Workout</a>
+					    	</li>
+					    	<li>
+					      		<a href="<?php echo URL;?>Note"> Notes </a>
 					    	</li>
 
 					     	<?php if(Session::get('$role') == 'admin'):?>
@@ -181,12 +171,13 @@
 			    
 				</ol>
 
-			</div>
+			
 					    
-		</nav>
-	<!-- ##### KONIEC NAWIGACJI ##### -->
-
-	<!-- ##### SLAJDER ##### -->
+			</nav>
+	
+		</div>
+<!-- ##### KONIEC NAWIGACJI ##### -->
+	
 		<picture>
 			<source srcset="/Project/app/assets/images/img/slajdy/slajd--large.jpg" media="(min-width: 1380px)">			
 			<source srcset="/Project/app/assets/images/img/slajdy/slajd--medium.jpg" media="(min-width: 990px)">			
@@ -195,22 +186,8 @@
 			<img srcset="/Project/app/assets/images/img/slajdy/slajd--smaller.jpg" alt="Workout of Day" class="header-side__image">
 		</picture>
 
-		<div class="header-side__text-content">
-			<div class="wrapper">
-
-				<p class="header-side__text">"Za dwadzieścia lat bar­dziej będziesz żałował te­go, cze­go nie zro­biłeś, niż te­go, co zro­biłeś. Więc od­wiąż li­ny, opuść bez­pie­czną przys­tań. Złap w żag­le po­myślne wiat­ry. Podróżuj, śnij, od­kry­waj."  - Mark Twain</p>
-
-			</div>
-		</div>
-		
-		      	
-	<!-- ##### KONIEC SLAJDERa ##### -->
-	
-	
-	</div> 
-	
-				
-	
 </header>
 
 <main>
+
+	

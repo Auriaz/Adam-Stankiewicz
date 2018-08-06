@@ -1,22 +1,14 @@
 <?php
- 
-
 class Index extends Controller {
-
 	function __construct() {
 		parent::__construct();
-		
-
 	}
 
- function Index() {
-		
-	
-		$this ->Model ->Index();
-		$this ->View ->title = "Jesteśmy w funkcji News class Index" ;
-
-		$this ->View ->Render("Index/Index");	
-	    
+	function Index() {
+		$this->View->Render('Header');
+		$this->View->Render("Index/Index");	
+		$this->View->Render('Footer');
+		$this->Model->Index();
+		$this->View->title = 'Home';
 	}
-
 }

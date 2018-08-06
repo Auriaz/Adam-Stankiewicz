@@ -1,5 +1,5 @@
 <article>
-	<div class="content content--diet content--dark">
+	<div class="content content--basic content--dark">
 
 		<h3 class="section-title"> Dieta </h3>
 		

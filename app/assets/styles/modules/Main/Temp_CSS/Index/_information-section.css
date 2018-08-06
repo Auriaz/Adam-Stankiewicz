@@ -1,21 +1,53 @@
 .information-section {
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 80px 250px 250px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 150px 300px 300px 300px 300px;
     grid-template-areas: 
-      "section-title section-title"
-      "columns__01 columns__02 "
-       "columns__03 columns__04";
+      "section-title"
+      "columns__01"
+      "columns__02 "
+      "columns__03"
+      "columns__04";
        
-    grid-column-gap: 5rem;
-    grid-row-gap: 5rem;
 
-    position: relative;
-    padding: 2.5rem;
+    grid-row-gap: 1.75rem;
+    padding-bottom: 2rem;
+    background-color: rgba($mainDarkBlue_02, 1);
+
+
+    @mixin atSmaller {
+      grid-template-columns: 1fr ;
+      grid-template-rows: 150px 250px 250px 250px 250px;
+    }
 
     @mixin atSmall {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 80px 300px 300px;
+      grid-template-areas: 
+        "section-title section-title"
+        "columns__01 columns__02 "
+        "columns__03 columns__04";
+       
+      grid-column-gap: 5rem;
+      grid-row-gap: 5rem;
+
+      position: relative;
+      padding: 1.5rem;
+      padding-bottom: 3rem;
     
+    }
+
+    @mixin atMedium {
+      padding-bottom: 0;
+      padding: 40px 60px;
+      margin: 0;
+      grid-column-gap: 8rem;
+    }
+
+    @mixin atLarge {
+      padding: 60px 150px;
+       background-color: rgba($mainDarkBlue_02, .3);
     }
 
   &__icon {
@@ -25,7 +57,7 @@
     top: 40px;
 
 
-    @mixin atSmall {
+    @mixin atMedium {
       position: absolute;
       left: 0;
     }
@@ -49,7 +81,11 @@
 
   &__columns {
     position: relative;
-    padding-left: 94px;
+    padding: 10px;
+
+    @mixin atMedium {
+       padding-left: 94px;
+    }
   }
 
   &--01 {

@@ -1,38 +1,33 @@
 <?php
-
 class Dashboard extends Controller {
-
 	function __construct() {
 		parent::__construct(); 
-		Session::init();
+		Auth::handleLogin();
 
-		$logged = Session::get('loggedIn');
-		
-		if($logged == false) {
-
-			Session::destroy();			
-			header('Location: ../Login');
-			exit();
-		}
-		
-		
 	}
 
 	function Index() {
-		
-		$this ->View ->Render("Dashboard/Index");
-		
-		
+	    $this->View->title = 'Panel';
+	    $this->View->Render('Header'); 
+		$this->View->Render("Dashboard/Index");
+		$this->View->Render('Panel');
 	}
 
 	function Logout() {
 		Session::destroy();
-
-		header('Location: ../Login');
+		header('Location: '. URL .'Login');
 		exit;
 	}
 
 	function Insert() {
-		$this ->Model ->Insert();
+		$this->Model->Insert();
+	}
+
+	function GetListings() {
+		$this->Model->GetListings();
+	}
+
+	function DeleteListing() {
+		$this->Model->DeleteListing();
 	}
 }

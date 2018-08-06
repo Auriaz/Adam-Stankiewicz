@@ -1,0 +1,218 @@
+ /* ######## NAWIGACJA ######## */
+.primery-nav {
+	z-index: 4;
+	border-bottom: 2px solid $mainRed;   
+	text-align: center;
+	padding: 10px 0;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;	
+	background-color: rgba($mainDarkBlue_02, .7);
+
+	@mixin atMedium {
+		background-color: rgba($mainDarkBlue_02, 1); 
+		border-bottom: 2px solid $mainDarkBlue_02; 
+	}
+
+	&--sticky-nav {
+ 		background-color: rgba($mainDarkBlue_02, .7);
+ 		transition: all 2s linear;
+ 		border-bottom: 2px solid $mainGreen;
+	}
+
+	&__ordered-list {
+		position: relative;
+		padding-top: 30px;
+		margin-right: 35px;
+		list-style-type: none;
+		height: 40px;
+		line-height: 250%;
+		display: inline-block;
+	    z-index: 3;
+	    letter-spacing: 2px;
+	    @mixin clearfix;
+
+	    @mixin atMedium {
+	    	padding-top: 0;
+	    	margin: 0;
+	    }
+
+		a {
+			color: $mainLithBlue;
+			text-decoration: none;
+		}
+
+		& > li {
+			width: 150px;
+			font-size: 1rem;
+			margin-left: auto;
+			margin-right: auto;	
+			z-index: 4;
+			padding: 1px;
+			letter-spacing: 1px;
+			display: inline-block;
+
+			@mixin atSmall {
+				width: 200px;
+			}
+
+			@mixin atMedium{
+				width: 150px;
+				float: left;
+				font-weight: 700;
+				letter-spacing: 2px;
+				display: block;
+			}
+		}
+
+	
+		& > li.primery-nav__ordered-list__sybol {
+			top: 0;
+			left: 50%;
+			position: fixed;
+			font-size: 1rem;
+			width: 150px;
+			height: 45px;
+			background-color: rgba($mainBlue, 1);
+			border: 2px solid $mainLithBlue;
+			padding-top: 1vw;
+			letter-spacing: 2px;
+			border-radius: 0 0 5vw 5vw;
+			transform: translatex(-50%);
+
+			@mixin atMedium  {
+				position: relative;
+				left: 0;
+				font-size: 1rem;
+				width: 150px;
+				height: 53px;
+				letter-spacing: 2px;
+				border-radius: 0 5vw;
+				transform: translateX(0);
+				margin-left: 20px;
+				margin-right: 20px;	
+			}
+
+			@mixin atLarge  {
+				font-size: 1.6rem;
+				width: 290px;
+				height: 70px;
+				letter-spacing: 4px;
+			}
+
+			@mixin atExtraLarge  {
+				height: 80px;
+			}
+
+			a {
+				color: $mainLithBlue;
+			}
+
+			&:hover {
+				border: 3px solid rgba($mainRed, .8);
+				background-color: rgba($mainDrakRed, 1);
+			}
+
+			&:hover a { 
+				color: $mainRed; 
+
+			}
+
+			&--sticky-nav {
+				border: 3px solid rgba($mainGreen, .8);	
+				background-color: rgba($mainDarkGreen, 1);
+				
+				@mixin atMedium {
+					transform: scale(.9) skew(15deg, 0deg);
+					transition: transform 2.5s ease-in-out;
+				}
+
+				a {
+					color: $mainGreen;
+				}			
+			}
+		}
+	
+		&__social-icons {
+			position: relative;
+			left: 0;
+			font-size: .9rem;
+			width: 150px;
+			line-height: 120%;
+
+			@mixin atMedium {
+			position: fixed;
+			right: -90%;
+			top: 0;
+			}
+
+			&--sticky-nav {
+				@mixin atMedium {
+										
+				}
+
+
+			}
+
+		}
+
+		& > li:hover {
+			
+		}
+
+		& > li > ul {
+			font-weight: 400;
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+			display: none;
+		}
+
+		& > li:hover > a {
+			color: $mainRed;
+		}
+
+		& > li:last-child:hover {
+		border:  none;
+		}
+
+		& > li:hover > ul {
+			display: block;
+		}
+
+		& > li:hover > ul > li > a {
+			color: $mainLithBlue;
+		}
+
+		& > li  > ul > li {
+			background-color: $mainDark;
+			position: relative;
+			z-index: 100;
+			border-top: 2px solid $mainLithBlue;
+			opacity: 0.9;
+			letter-spacing: 2px;
+		}
+
+		& > li  > ul > li:last-child {
+			border-bottom: 2px solid $mainRed;
+		}
+
+		& > li  > ul > li:hover {
+			background-color: $mainDarkBlue_02;
+			
+		}
+
+		& > li  > ul > li:hover > a {
+ 			color: $mainOrange;
+ 		}
+	}
+}
+
+   
+
+
+.panel {
+	
+}
+

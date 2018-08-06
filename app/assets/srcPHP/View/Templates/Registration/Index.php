@@ -1,18 +1,18 @@
 <?php
 Session::init();
 ?>
-<div class="content content--registration content--transparent">
+<div class="content content--transparent content--add content--add-padding">
 
-	<div class="box-registration">
+	<div class="transparent-box transparent-box--registration">
 		<div class="icon icon--user">
 		    <i class="icon-user-plus"></i> 
 		             
-		</div><h2 class="box-login__title">Rejestracja - załóż konto </h2>
+		</div><h2 class="transparent-box__title">Rejestracja - załóż konto </h2>
 		
 
 
 		<form method="post" action="Registration/Insert">
-			<p class="box-login__text">Username</p>
+			<p class="transparent-box__text">Username</p>
 		  <input type="text"  placeholder="Nickname" value="<?php 
 				if(isset($_SESSION['fr_nick']))
 				 {
@@ -27,7 +27,7 @@ Session::init();
 						 Session::unsets('e_nick');
 					 }
 				 ?>
-				 <p class="box-login__text">E-mail</p>
+				 <p class="transparent-box__text">E-mail</p>
 		   <input type="text" placeholder="E-mail" value="<?php  
 				 if(isset($_SESSION['fr_email']))
 				 {
@@ -42,7 +42,7 @@ Session::init();
 						 Session::unsets('e_email');
 					 }
 				 ?>
-				 <p class="box-login__text">Entry password</p>
+				 <p class="transparent-box__text">Entry password</p>
 			<input type="password" placeholder="Twoje hasło" value="<?php  
 				 if(isset($_SESSION['fr_haslo1']))
 				 {
@@ -58,7 +58,7 @@ Session::init();
 					 }
 				 ?>
 
-				 <p class="box-login__text">Repeat password</p>
+				 <p class="transparent-box__text">Repeat password</p>
 			 <input type="password"  placeholder="Powtórz hasło" value="<?php  
 				 if(isset($_SESSION['fr_haslo2']))
 				 {
@@ -85,8 +85,10 @@ Session::init();
 					Session::unsets('e_regulamin');
 				 }
 			 ?>
-				
-			 <div class="g-recaptcha" data-sitekey="6LcfQx0TAAAAABZJrEIbLXCE4cqs3RSbHxu7daPD"></div>
+			<div class="transparent-box__recaptcha">
+				<div class="g-recaptcha" data-sitekey="6LcfQx0TAAAAABZJrEIbLXCE4cqs3RSbHxu7daPD"></div>
+			</div>
+			 
 			 	 <?php
 			      if(isset($_SESSION['e_bot']))
 				 {
@@ -94,8 +96,8 @@ Session::init();
 					 Session::unsets('e_bot');
 				 }
 			 ?>
-			 <br/>
-			 <input class="btn" type= "submit" value="Zarejestruj się"/>
+			 
+			 <input class="btn btn--add-margin" type= "submit" value="Zarejestruj się"/>
 		 </form>
 	</div>
 </div>

@@ -1,19 +1,14 @@
 <?php
 //dodaje artykuły do bazy 
 class AddWork_Model extends Model {
-
 	function __construct() {
 		parent::__construct();
 		Session::init();
-
 	}
 
 	public function addWork() {
-		
 
 		if(isset($_SESSION['$user'])) {
-		  $Connect = $_POST['Connect'];
-		  	
 		  $user = Session::get('$user'); 
 		  $date = date('Y-m-d D');
 		  $section = "Workout";
@@ -31,23 +26,13 @@ class AddWork_Model extends Model {
 		  $methodology_exercises = $_POST['methodology_exercises'];
 		  $picture = $_POST['picture'];
 
-		 
-
-           
-		  if($result = $Connect->query("INSERT INTO Workout_Datebase VALUES (NULL, '$date', '$section', '$warm_up', '$mobility', '$corrective_exercises', '$activation_exercises', '$technical_exercises', '$basic_exercises', '$accessory_exercises', '$anaerobic_exercise', '$metabolic_condition', '$stretching', '$cool_down', '$methodology_exercises', '$picture', '$user')")) {
+		  if($result = $this->Connect->query("INSERT INTO Workout_Datebase VALUES (NULL, '$date', '$section', '$warm_up', '$mobility', '$corrective_exercises', '$activation_exercises', '$technical_exercises', '$basic_exercises', '$accessory_exercises', '$anaerobic_exercise', '$metabolic_condition', '$stretching', '$cool_down', '$methodology_exercises', '$picture', '$user')")) {
 
 		  header('location: ../AddWork/added');
-
-		  	
 		  }else{
 		  	echo "Błąd przy wysyłaniu zapytania";
 		  }
-		  
-
-			
-		  $Connect->close();
-
-		  
+		  $this->Connect->close();
 		}
 	}
 

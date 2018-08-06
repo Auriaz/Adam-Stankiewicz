@@ -1,0 +1,6 @@
+.add-work {
+	&__subtitle {
+		cursor: pointer;
+	}
+
+}

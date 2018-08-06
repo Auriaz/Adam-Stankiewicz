@@ -1,18 +1,13 @@
 <?php
 class Metabolic extends Controller {
-
 	function __construct() {
-		parent::__construct();
-		
+		parent::__construct();		
 	}
 
- function Index() {
-		
+ function Index() {		
 		$this ->Model ->Index();
-		$this ->View ->title = "Mobilizacja" ;
-
+		$this->View->Render('Header');
 		$this ->View ->Render("Metabolic/Index");	
-	 	
-	 	
+		$this->View->title = 'Metabolic';
 	}
 }

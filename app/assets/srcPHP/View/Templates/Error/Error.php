@@ -1,1 +1,0 @@
-<div class="error"><h3><?= "Wystąpił błąd: ".$this->error_message; ?></h3></div

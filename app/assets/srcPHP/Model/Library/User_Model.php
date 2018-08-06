@@ -1,80 +1,72 @@
 <?php
-
 class User_Model extends Model {
-
 	public function __construct() {
 			parent::__construct();
 			Session::init();
 	}
 
 	public function userList() {
-
-		$Connect = $_POST['Connect'];
-
-		$result = $Connect->query('SELECT id, user, email, role FROM uzytkownicy');
-	
-		return $result ->fetch_all();
-		$result->free_result();
-		$Connect->close();
+		return $this->Connect->Select(
+			"SELECT id_user, user, email, role FROM uzytkownicy", 'fetch_all', MYSQLI_BOTH
+		);
 	}
 
 	public function userSingleList($id) {
-
-		$Connect = $_POST['Connect'];
-
-		$result = $Connect->query("SELECT id, user, email, role FROM uzytkownicy WHERE id ='$id'");
-		
-		return $result ->fetch_assoc();
-		
-		$result->free_result();
-		$Connect->close();
-
+		return $this->Connect->Select(
+			"SELECT id_user, user, email, role FROM uzytkownicy WHERE id_user ='$id'",'fetch_array', MYSQLI_ASSOC
+		);
+		 
+		$this->Connect->close();
 	}
 
+	/*
+	* type array $data Data array downloaded from the User(controller)->Create
+	* type array $postData Data with associative array to post Insert(Database)->$data
+	* type string 'uzytkownicy' name of table to post Insert(Database)->$table
+	*/
 	public function Create($data) {
-		$Connect = $_POST['Connect'];
+		$hash_key = Hash::create('sha256', $data['pass'], HASH_KEY);
+		$postData = array(
+			'user' =>$data['user'],
+			'pass' => password_hash($hash_key, PASSWORD_DEFAULT),
+			'email' => $data['email'],
+			'role' => $data['role'] 
+			);
+		$this->Connect->Insert('uzytkownicy', $postData, 'id_user');
 
-		$login = $data['login'];
-		$pass = $data['pass'] ;
-		$email = $data['email'];
-		$role = $data['role'] ;
-
-
-		$result = $Connect->query("INSERT INTO uzytkownicy VALUES (NULL, '$login',' $pass', '$email', '$role')");
-
-		
-		header('location: ../User');
-
-		$Connect->close();
-	
+		$this->Connect->close();
 	}
 
+	/*
+	* type array $data Data array downloaded from the User(controller)->editSave
+	* type array $postData Data with associative array to post Insert(Database)->$data
+	* type string 'uzytkownicy' name of table to post Insert(Database)->$table
+	*type string "id ='{$data['id']}'" location where the data in the database should be to post Insert(Database)->$where
+	*/
 	public function editSave($data) {
-		$Connect = $_POST['Connect'];
-
-		$id = $data['id'];
-		$login = $data['login'];
-		$pass = $data['pass'] ;
-		$email = $data['email'];
-		$role = $data['role'] ;
-
-      print_r('$data');
-		$result = $Connect->query("UPDATE uzytkownicy SET  user = '$login',pass = ' $pass',email = '$email',role = '$role' WHERE id ='$id'");
-
-		
-		
-		
-		$Connect->close();
-	
+		$hash_key = Hash::create('sha256', $data['pass'], HASH_KEY);
+		$postData = array(
+			'user' =>$data['user'],
+			'pass' => password_hash($hash_key, PASSWORD_DEFAULT),
+			'email' => $data['email'],
+			'role' => $data['role'] 
+			);
+		$this->Connect->Update(
+			'uzytkownicy', $postData, "id_user ='{$data['id']}'");
+		$this->Connect->close();
 	}
-	public function Delete($id){
 
-		$Connect = $_POST['Connect'];
+	public function Delete($id) {
+		$result = $this->Connect->Select("SELECT role FROM uzytkownicy WHERE id_user = '$id'",'fetch_all', MYSQLI_ASSOC);
 		
-		$result = $Connect->query("DELETE FROM uzytkownicy WHERE id = '$id'");
-		header('location: ../../User');
-		
-		$Connect->close();
+		if ($result[0]['role'] == 'admin') {	
+			return false;
+		}
+
+		$this->Connect->Delete(
+			'uzytkownicy', "id_user = '$id'"
+		);	
+		$this->Connect->close();
 	}
 }
 

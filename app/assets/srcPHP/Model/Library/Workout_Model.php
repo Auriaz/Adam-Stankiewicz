@@ -1,21 +1,14 @@
 <?php
-
 class Workout_Model extends Model {
-
 	function __construct() {
 		parent::__construct();
 		Session::init();
-
 	}
 
 	function Index() {
-	
-		$Connect = $_POST['Connect'];
-
-		//$id = '2';
+		$results = $this->Connect->query("SELECT * FROM Workout_Datebase ");
 		
-		$results = $Connect->query("SELECT * FROM Workout_Datebase ORDER BY id_workout DESC");
-	     $line = $results ->fetch_assoc();
+	     $line = $results ->fetch_array();
 		
 		 $value_id = $line['id_workout'];
 		 $value_date = $line['date'];
@@ -48,9 +41,5 @@ class Workout_Model extends Model {
 		Session::set('$stretching', $value_stretching);
 		Session::set('$cool_down', $value_cool_down);
 		Session::set('$methodology_exercises', $value_methodology_exercises);
-
-		$Connect->close();
-
 	}
-
 }

@@ -2,7 +2,7 @@
   display: grid;
 
   grid-template-columns: 1fr; 
-  grid-template-rows: 80px 200px;
+  grid-template-rows: 60px 250px 250px 250px 250px;
   grid-template-areas: 
       "section-title"
       "index__01"
@@ -12,9 +12,24 @@
 
   grid-column-gap: 0;
   grid-row-gap: 0;
-  background-color: rgba(35, 188, 188, 1);
+  background-color: rgba($mainDarkBlue_02, 1);
 
-  @mixin atSmall{
+  @mixin atSmaller {
+      grid-template-columns: 1fr; 
+  grid-template-rows: 60px 250px 250px 250px 250px;
+  grid-template-areas: 
+      "section-title"
+      "index__01"
+      "index__02"
+      "index__03"
+      "index__04";
+
+  grid-column-gap: 0;
+  grid-row-gap: 0;
+  background-color: rgba($mainDarkBlue_02, 1);
+  }
+
+  @mixin atSmall {
     grid-template-columns: 1fr 1fr; 
     grid-template-rows: 80px 200px;
     grid-template-areas: 
@@ -22,13 +37,13 @@
         "index__01 index__02"
          "index__03 index__04";
 
-    grid-column-gap: 2rem;
-    grid-row-gap: 1rem;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
     padding: 20px;
     background-color: rgba(35, 188, 188, 1);
   }
 
-  @mixin atMedium {
+  @mixin atLarge {
     grid-template-columns: 1fr 1fr 1fr 1fr; 
     grid-template-rows: 80px 250px;
     grid-template-areas: 

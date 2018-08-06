@@ -3,8 +3,9 @@
   	<div class="box-index">
 	  	<div class="box-index--workout">
 	  		<a href="<?php echo URL;?>Workout">	
-	  			<div class="postcard postcard--halo">
+	  			<div class="postcard postcard--halo-blue">
 	  				<div class="box-index--workout__text-content">
+
 		  				<h2 class="box-index--workout__title">		
 					  		<?php
 
@@ -34,7 +35,7 @@
 
 	  	<div class="box-index--metabolic">
 	  		<a href="<?php echo URL;?>Metabolic">
-				<div class="postcard postcard__photo postcard--halo">
+				<div class="postcard postcard__photo postcard--halo-red">
 					<p class="postcard__text">Wytrzymałość</p>
 					<img src="/Project/app/assets/images/img/wytrzymalosc.jpg" alt="Workout of Day">
 				</div>
@@ -43,14 +44,14 @@
 
 	  	<div class="box-index--strength">
 	  		<a href="<?php echo URL;?>Strength">
-				<div class="postcard postcard__photo postcard--halo"><p class="postcard__text">Jak zwiekszyć siłę</p>
+				<div class="postcard postcard__photo postcard--halo-red"><p class="postcard__text">Jak zwiekszyć siłę</p>
 					<img src="/Project/app/assets/images/img/strength.jpg" alt="Workout of Day">
 				</div>
 			</a>
 	  	</div>
 	  	<div class="box-index--mobility">
 	  		<a href="<?php echo URL;?>Mobility">
-				<div class="postcard postcard__photo postcard--halo"><p class="postcard__text">Rozciąganie</p>
+				<div class="postcard postcard__photo postcard--halo-red"><p class="postcard__text">Rozciąganie</p>
 					<img src="/Project/app/assets/images/img/stretching2.jpg" alt="Workout of Day">
 				</div>
 			</a>
@@ -59,7 +60,7 @@
 	  	<div class="box-index--diet">
 	  		<a href="<?php echo URL;?>Diet">
 				
-				<div class="postcard postcard__photo postcard--halo"><p class="postcard__text">Dieta i suplementacja</p>
+				<div class="postcard postcard__photo postcard--halo-red"><p class="postcard__text">Dieta i suplementacja</p>
 					<img src="/Project/app/assets/images/img/dieta.jpg" alt="Workout of Day">
 				</div>
 				<!--Można wstawić przepis dnia-->
@@ -67,11 +68,11 @@
 	  	</div>
 
 	  	<div class="box-index--offering">
-	  		<div class="postcard postcard__photo postcard--halo">
+	  		<div class="postcard postcard__photo postcard--halo-blue">
 				<div class="overlay">
 					<a href ="<?php echo URL;?>AboutMe"><img src="/Project/app/assets/images/img/ketbells.jpg" alt="Offering">
 					</a>
-					<a class="overlay__link" href ="<?php echo URL;?>AboutMe" style="height: 100%;"><p>Oferta </p>
+					<a class="overlay__link" href ="<?php echo URL;?>AboutMe" style="height: 100%;"><p >Oferta </p>
 					</a>
 
 				</div>
@@ -82,7 +83,7 @@
 
 	<div class="last-articles">
 		
-		<h3 class="section-title"> Ostatnio dodane artykuły </h3>
+		<h3 class="section-title section-title--less-margin"> Ostatnio dodane artykuły </h3>
 	  		
 		<div class="postcard postcard__photo postcard--index__01">
 			<div class="overlay">

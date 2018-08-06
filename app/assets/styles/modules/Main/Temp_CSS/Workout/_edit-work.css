@@ -1,0 +1,16 @@
+.edit-work {
+	&__mobility {
+		&--is-invisible {
+		display: none;
+	}
+	}
+	
+
+	&__warm-up {
+
+	}
+}
+
+
+
+

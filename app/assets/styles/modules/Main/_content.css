@@ -1,38 +1,111 @@
 .content {
 	width: 100%;
-	margin: auto;
+	min-height: 1100px;
+	max-height: auto;
  	display: grid;
- 		
- 	&--index {
- 		
+ 	
+ 	&--basic {
+ 	grid-template-columns: 1fr;
+    grid-template-rows: 50px 250px 250px 250px 250px 250px 250px;
+    grid-template-areas: 
+      "section-title"
+      "postcard_01"
+      "postcard_02 "
+      "postcard_03"
+      "postcard_04"
+      "postcard_05"
+      "postcard_06";
+       
+
+    grid-row-gap: 1.75rem;
+    padding-bottom: 2rem;
+    background-color: rgba($mainDarkBlue_02, 1);
+
+    	@mixin atSmaller{
+    		grid-template-columns: 1fr 1fr ;
+			grid-template-rows: 70px 250px 250px 250px;
+			grid-template-areas: 
+				"section-title section-title "
+				"postcard_01 postcard_02 "
+				"postcard_04 postcard_03"
+				"postcard_05 postcard_06";
+				grid-column-gap: 20px;
+				grid-row-gap: 20px;
+				padding: 20px;
+    	}
+
+ 		@mixin atMedium {
+			grid-template-columns: 1fr 1fr 1fr;
+			grid-template-rows: 70px 300px 300px;
+			grid-template-areas: 
+				"section-title section-title section-title"
+				"postcard_01 postcard_02 postcard_03"
+				"postcard_04 postcard_05 postcard_06";
+				
+				
+			grid-column-gap: 30px;
+			grid-row-gap: 80px;
+			padding: 70px;
+			padding-bottom: 10%;
+ 		}
+ 
+ 	}
+
+ 	&--dashboard {
+ 	grid-template-columns: 1fr 11fr; 
+	grid-template-areas:
+		'panel dashboard';
  	}
 
 	&--add {
 		text-align: center;
 		margin-left: auto;
 		margin-right:  auto;
-		
+	}
+
+	&--add-padding{
+		padding: 100px; 
+	}
+
+	&--add-top {
+		margin-top: 80px;
+
 	}
 
 	&--transparent {
-		width: 100%;
-		height: 100%;
-		position: fixed;
-		z-index: 90; 
-		background-color: rgba(0, 0, 0, .5);
-		top: 0;
-		left: 0;
+		position: relative;
+		z-index: 2; 
+		background-color: rgba(160, 160, 160, .1);
 	}
 
 	&--blue {
 		background-color: $mainBlue;
-		
 	}
 
 	&--dark {
-
 		background-color: $mainDarkBlue_02;
-		
 	}
 
+	& table {
+		background-color: rgba(0, 0, 20, .7);
+		& th {
+			background-color: rgba(30, 0, 0, 7);
+			border: 2px solid $mainDarkRed;
+			color: #fff;
+			font-weight: 900;
+		}
+
+		& td {
+			border: 2px solid $mainBlue;
+			color: $mainLithBlue;
+
+			& a {
+				color: $mainOrange;
+			}
+
+			& a:hover {
+				color: $mainRed;
+			}
+		}
+	}
 }

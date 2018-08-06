@@ -1,0 +1,25 @@
+.postcard--mobility__01 {
+	grid-area: postcard_01;	
+	
+}
+
+.postcard--mobility__02 {
+	grid-area: postcard_02;	
+}
+
+.postcard--mobility__03 {
+	grid-area: postcard_03;	
+}
+
+.postcard--mobility__04 {
+	grid-area: postcard_04;	
+
+}
+
+.postcard--mobility__05 {
+	grid-area: postcard_05;	
+}
+
+.postcard--mobility__06 {
+	grid-area: postcard_06;	
+}

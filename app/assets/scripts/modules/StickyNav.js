@@ -4,35 +4,46 @@ import smoothScroll from 'jquery-smooth-scroll';
 
 
 /*  #### Przyklejanie nawigacji  ####  */
+class StickyNav {
+  constructor() {
+    this.primeryNav = $('.primery-nav');  
+    this.sybolNav = $('.primery-nav__ordered-list__sybol');
+    this.socialNav = $('.primery-nav__ordered-list__social-icons');
+    this.headerTriggerElement = $(".content");
+    this.createHeaderWaypoint();
+    this.headerLinks = $(".primary-nav a");
+    this.addSmoothScrolling();  
+  }
 
-		    $(document).ready(function()
-		    {
-                var stickyNavTop = $('.nav').offset().top;
-            	 
-			   
-			
-                 var stickyNav = function()
-			       {
-                      var scrollTop = $(window).scrollTop();
+ addSticky() {
+    this.primeryNav.addClass('primery-nav--sticky-nav');
+    this.sybolNav.addClass('primery-nav__ordered-list__sybol--sticky-nav');
+    this.socialNav.addClass('primery-nav__ordered-list__social-icons--sticky-nav');
+  }
 
-                      if (scrollTop > stickyNavTop)
-						      { 
+  removeSticky() {
+    this.primeryNav.removeClass('primery-nav--sticky-nav');
+    this.sybolNav.removeClass('primery-nav__ordered-list__sybol--sticky-nav');
+    this.socialNav.removeClass('primery-nav__ordered-list__social-icons--sticky-nav');
+  }
 
-						 
-				          $('.nav').addClass('sticky');
-		                
-                         
-                   } else {
-         
-				           $('.nav').removeClass('sticky');
-						      
-                   }
-             };
+   addSmoothScrolling() {
+    this.headerLinks.smoothScroll();
+  }
 
-               stickyNav();
+  createHeaderWaypoint() {
+    var that = this;
+    new Waypoint({
+       element: this.headerTriggerElement[0],
+      handler: function(direction) {
+        if (direction == "down") {
+          that.addSticky();
+        } else {
+          that.removeSticky();
+        }
+      }
+    });
+  }
+}
 
-               $(window).scroll(function()  
-			    {
-                  stickyNav();
-                });
-            });
+export default StickyNav;

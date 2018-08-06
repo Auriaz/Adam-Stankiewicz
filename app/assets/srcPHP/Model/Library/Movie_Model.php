@@ -9,17 +9,14 @@ class Movie_Model extends Model {
 	}
 
 	function Index() {
-	
-		$Connect = $_POST['Connect'];
-
-		//$id = '2';
 		
-		$result = $Connect->query("SELECT content FROM art WHERE id ='1'");
+		
+		$result = $this->Connect->query("SELECT content FROM art WHERE id ='1'");
 	     $line = $result ->fetch_assoc();
 		 $article = $line['content'];
        
 		Session::set('$art', $article);
-		$Connect->close();
+		$this->Connect->close();
 
 	}
 

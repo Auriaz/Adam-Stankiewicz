@@ -1,22 +1,15 @@
 <?php
-
 class Registration extends Controller {
-
 	function __construct() {
 		parent::__construct(); 
-		//Session::init();
-		
 	}
 	function Index() {
-		$this ->View ->Render("Registration/Index");
+		$this->View->Render('Header');
+		$this->View->Render("Registration/Index");
+		$this->View->title = 'Registration';
 	}
 
-	
-
-	function Insert() {
-			
-		$this ->Model ->Insert();
-	
+	function Insert() {		
+		$this->Model->Insert();
 	}
-
 }

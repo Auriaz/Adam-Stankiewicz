@@ -11,6 +11,7 @@
 	  height: 100%;
 	  overflow: hidden;
 	  text-align: center;
+	  border-radius: 5px;
 
 		img {
 			width: 100%;
@@ -23,13 +24,27 @@
 		transform: scale(1.15);
 	}
 
-	&--halo {
+	&--halo-red {
 		&:hover {
-		box-shadow: 0 0 10px $mainDarkBlue;
+		box-shadow: 0 0 10px $mainRed;
 		}
 
 		&:hover .postcard__text {
 			color: red;
+		}
+	}
+
+	&--halo-blue {
+		&:hover {
+		box-shadow: 0 0 10px $mainBlue;
+		}
+
+		&:hover .box-index--workout__title {
+			color: $mainRed;
+		}
+
+		&:hover .box-index--workout__subtitle {
+			color: $mainLithBlue;
 		}
 	}
 

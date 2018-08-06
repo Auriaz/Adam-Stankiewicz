@@ -1,0 +1,25 @@
+.postcard--strength__01 {
+	grid-area: postcard_01;	
+	
+}
+
+.postcard--strength__02 {
+	grid-area: postcard_02;	
+}
+
+.postcard--strength__03 {
+	grid-area: postcard_03;	
+}
+
+.postcard--strength__04 {
+	grid-area: postcard_04;	
+
+}
+
+.postcard--strength__05 {
+	grid-area: postcard_05;	
+}
+
+.postcard--strength__06 {
+	grid-area: postcard_06;	
+}

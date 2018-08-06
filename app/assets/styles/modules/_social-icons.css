@@ -1,8 +1,23 @@
 .social-icons {
 	&--footer {
 
-		margin: 70px;
+		margin: 10px;
+
+		@mixin atSmall {
+			margin-left: 60px;
+			margin-right: 60px;
+		}
+
+		@mixin atMedium {
+			margin: 20px;
+		}
 	}
+
+	&--header-side {
+		width: 150px;
+		@mixin clearfix;
+	}
+
 	&__icon{
 			display: inline-block;
 		&:hover{ 
@@ -19,45 +34,63 @@
 		padding: 2px;
 		font-size: 1rem;
 		letter-spacing: 2px;
-		margin-top: 3px;
+		margin-top: 5px;
+		margin-bottom: 0; 
+		margin-right: auto;
+		margin-left: auto;
+		
+		@mixin atMedium {
+			margin-top: 2px;
+		}
+
 	}
 
 	&--footer {
-		font-size: 1.5rem;
-		padding: 5px;
+		font-size: 2rem;
 		background-color: rgba(60, 60, 60, .9);
 		color: #fff;
-		margin: 0;
-
-		@mixin atSmall {
-		font-size: 2rem;
+		margin: 5px;
+		margin-top: 5px;
+		display: inline-block;
 		padding: 10px;
+	 
+
+		@mixin atSmaller {
+		font-size: 3rem;
+		padding: 15px;
 		margin: 5px;
 		}
 
-		@mixin atMedium {
-		font-size: 3rem;
-		padding: 15px;
+		@mixin atSmall {
+		font-size: 3.5rem;
+		padding: 30px;
 		margin: 10px;
+		}
+
+		@mixin atMedium {
+		font-size: 4rem;
+		padding: 35px;
+		margin: 15px;
 		
 		}
 
 		@mixin atLarge {
-		font-size: 6rem;
-		padding: 30px;
-		margin: 40px;
+		font-size: 4.3rem;
+		padding: 40px;
+		margin: 20px;
 		
 		}
 
 		@mixin atExtraLarge {
-		font-size: 8rem;
-		padding: 40px;
-		margin-top: 45px;
+		font-size: 5rem;
+		padding: 55px;
+		margin-top: 25px;
 		}
 	}
 
+	
+
 	&--youtube {
-	 margin-right: 10px;
 	 
 	   
 	}
@@ -67,7 +100,7 @@
 	}
 
 	&--facebook {  
-		margin-right: 10px;
+		 
 	}
 
 	&--facebook:hover {
@@ -75,7 +108,7 @@
 	}
 
 	&--twitter {
-	  margin-right: 10px;
+	  
 	 
 	}
 
@@ -84,7 +117,7 @@
 	}
 	
 	&--gplus {
-		margin-right: 10px;
+		 
 	 
 	}
 
@@ -94,13 +127,12 @@
 
 	&--user-plus {
 		font-size: 1rem;
-		padding: 10px;
-		margin-right: 20px;
-		color: $mainNav_04;
+		padding: 5px;
+		color: $mainOrange;
 	}
 
 	&--user-plus:hover {
-		color: $mainNav_02;
+		color: $mainRed;
 	}
 
 	&--user {
